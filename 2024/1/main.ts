@@ -1,5 +1,3 @@
-import "@std/dotenv/load";
-
 import { sumOf, unzip, zip } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 
