@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "@std/collections": "jsr:@std/collections@^1.0.9",
+    "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
+    "@utilities/": "./utilities/"
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}
