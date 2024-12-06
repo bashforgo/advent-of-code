@@ -48,7 +48,7 @@ const initialGuardLocation = ((): Point => {
 const walk = () => {
   let location = initialGuardLocation;
   let direction = Direction.North as Direction;
-  const path = [{ direction, location }];
+  const path = new Set<string>();
 
   const isWithinBounds = ({ x, y }: Point): boolean =>
     y >= 0 && y < map.length && x >= 0 && x < map[0].length;
@@ -84,12 +84,10 @@ const walk = () => {
       direction = nextDirection;
     } else {
       location = nextLocation;
-      const isLoop = path.some((seen) =>
-        seen.location.x === location.x && seen.location.y === location.y &&
-        seen.direction === direction
-      );
-      path.push({ direction, location });
+      const key = `${direction} ${location.x},${location.y}`;
+      const isLoop = path.has(key);
       if (isLoop) return [true, path] as const;
+      path.add(key);
     }
   }
 
@@ -98,15 +96,16 @@ const walk = () => {
 
 const [, path] = walk();
 console.log(
-  new Set(path.map(({ location: { x, y } }) => `${x},${y}`)).size - 1,
+  new Set(Array.from(path).map((key) => key.slice(2))).size,
 );
 
 const loopOpportunities = new Set<string>();
-for (const { location } of path) {
-  const tileBefore = map[location.y]?.[location.x];
-  map[location.y][location.x] = Tile.Obstacle;
+for (const key of path) {
+  const [x, y] = key.slice(2).split(",").map(Number);
+  const tileBefore = map[y]?.[x];
+  map[y][x] = Tile.Obstacle;
   const [isLoop] = walk();
-  if (isLoop) loopOpportunities.add(`${location.x},${location.y}`);
-  map[location.y][location.x] = tileBefore;
+  if (isLoop) loopOpportunities.add(`${x},${y}`);
+  map[y][x] = tileBefore;
 }
 console.log(loopOpportunities.size);
