@@ -45,79 +45,68 @@ const initialGuardLocation = ((): Point => {
   return { x, y };
 })();
 
-class Guard {
-  constructor(
-    public readonly location: Point,
-    public readonly direction: Direction,
-  ) {}
+const walk = () => {
+  let location = initialGuardLocation;
+  let direction = Direction.North as Direction;
+  const path = [{ direction, location }];
 
-  getNextLocation(): Point {
-    switch (this.direction) {
-      case Direction.North:
-        return { x: this.location.x, y: this.location.y - 1 };
-      case Direction.East:
-        return { x: this.location.x + 1, y: this.location.y };
-      case Direction.South:
-        return { x: this.location.x, y: this.location.y + 1 };
-      case Direction.West:
-        return { x: this.location.x - 1, y: this.location.y };
-    }
-  }
+  const isWithinBounds = ({ x, y }: Point): boolean =>
+    y >= 0 && y < map.length && x >= 0 && x < map[0].length;
+  while (isWithinBounds(location)) {
+    const nextLocation = (() => {
+      switch (direction) {
+        case Direction.North:
+          return { x: location.x, y: location.y - 1 };
+        case Direction.East:
+          return { x: location.x + 1, y: location.y };
+        case Direction.South:
+          return { x: location.x, y: location.y + 1 };
+        case Direction.West:
+          return { x: location.x - 1, y: location.y };
+      }
+    })();
 
-  getNextDirection(): Direction {
-    switch (this.direction) {
-      case Direction.North:
-        return Direction.East;
-      case Direction.East:
-        return Direction.South;
-      case Direction.South:
-        return Direction.West;
-      case Direction.West:
-        return Direction.North;
-    }
-  }
-
-  hasLeftMap(): boolean {
-    const { x, y } = this.location;
-    return x < 0 || y < 0 || x >= map[0].length || y >= map.length;
-  }
-
-  step(): void {
-    const nextLocation = this.getNextLocation();
-    const isObstacle = map[nextLocation.y]?.[nextLocation.x] === Tile.Obstacle;
-    if (isObstacle) {
-      Object.assign(this, { direction: this.getNextDirection() });
-      this.step();
+    const isObstacle = (point: Point): boolean =>
+      map[point.y]?.[point.x] === Tile.Obstacle;
+    if (isObstacle(nextLocation)) {
+      const nextDirection = (() => {
+        switch (direction) {
+          case Direction.North:
+            return Direction.East;
+          case Direction.East:
+            return Direction.South;
+          case Direction.South:
+            return Direction.West;
+          case Direction.West:
+            return Direction.North;
+        }
+      })();
+      direction = nextDirection;
     } else {
-      Object.assign(this, { location: nextLocation });
+      location = nextLocation;
+      const isLoop = path.some((seen) =>
+        seen.location.x === location.x && seen.location.y === location.y &&
+        seen.direction === direction
+      );
+      path.push({ direction, location });
+      if (isLoop) return [true, path] as const;
     }
   }
+
+  return [false, path] as const;
+};
+
+const [, path] = walk();
+console.log(
+  new Set(path.map(({ location: { x, y } }) => `${x},${y}`)).size - 1,
+);
+
+const loopOpportunities = new Set<string>();
+for (const { location } of path) {
+  const tileBefore = map[location.y]?.[location.x];
+  map[location.y][location.x] = Tile.Obstacle;
+  const [isLoop] = walk();
+  if (isLoop) loopOpportunities.add(`${location.x},${location.y}`);
+  map[location.y][location.x] = tileBefore;
 }
-
-const guard = new Guard(initialGuardLocation, Direction.North);
-
-class LocationSet {
-  #set = new Set<string>();
-
-  add(value: Point): this {
-    this.#set.add(`${value.x},${value.y}`);
-    return this;
-  }
-
-  has(value: Point): boolean {
-    return this.#set.has(`${value.x},${value.y}`);
-  }
-
-  size(): number {
-    return this.#set.size;
-  }
-}
-
-const visited = new LocationSet();
-
-while (!guard.hasLeftMap()) {
-  visited.add(guard.location);
-  guard.step();
-}
-
-console.log(visited.size());
+console.log(loopOpportunities.size);
