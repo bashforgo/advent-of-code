@@ -1,3 +1,5 @@
+import { memoize } from "@std/cache";
+import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 
 const DEBUG = false;
@@ -19,28 +21,18 @@ const splitNumber = (n: number, afterDigit: number) => {
   return [Number(firstPart), Number(secondPart)];
 };
 
-const blink = (stones: number[]) => {
-  for (let i = 0; i < stones.length; i++) {
-    const value = stones[i];
+const blink = memoize((stone: number, times: number): number => {
+  if (times === 0) return 1;
 
-    if (value === 0) {
-      stones[i] = 1;
-      continue;
-    }
+  if (stone === 0) return blink(1, times - 1);
 
-    const numberOfDigits = getNumberOfDigits(value);
-    if (numberOfDigits % 2 === 0) {
-      const [leftStone, rightStone] = splitNumber(value, numberOfDigits / 2);
-      stones.splice(i, 1, leftStone, rightStone);
-      i++;
-      continue;
-    }
-
-    stones[i] = value * 2024;
+  const numberOfDigits = getNumberOfDigits(stone);
+  if (numberOfDigits % 2 === 0) {
+    const [leftStone, rightStone] = splitNumber(stone, numberOfDigits / 2);
+    return blink(leftStone, times - 1) + blink(rightStone, times - 1);
   }
-};
 
-for (let i = 0; i < 25; i++) {
-  blink(stones);
-}
-console.log(stones.length);
+  return blink(stone * 2024, times - 1);
+});
+
+console.log(sumOf(stones, (stone) => blink(stone, 75)));
