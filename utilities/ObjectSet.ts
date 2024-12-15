@@ -9,6 +9,10 @@ export class ObjectSet<T> {
     return this.#map.has(this.#getKey(value));
   }
 
+  delete(value: T) {
+    return this.#map.delete(this.#getKey(value));
+  }
+
   get size() {
     return this.#map.size;
   }
