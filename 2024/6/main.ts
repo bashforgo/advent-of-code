@@ -1,4 +1,12 @@
 import { getInput } from "@utilities/getInput.ts";
+import { Direction } from "@utilities/grid/Direction.ts";
+import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
+import { getPoint } from "@utilities/grid/getPoint.ts";
+import { Grid } from "@utilities/grid/Grid.ts";
+import { isInBounds } from "@utilities/grid/isInBounds.ts";
+import { isSamePoint } from "@utilities/grid/isSamePoint.ts";
+import { Point, point } from "@utilities/grid/Point.ts";
+import { ObjectSet } from "@utilities/ObjectSet.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -17,95 +25,115 @@ const input = DEBUG
   : await getInput(6);
 
 enum Tile {
-  Obstacle = "#",
   Empty = ".",
+  Obstacle = "#",
 }
 
-enum Direction {
-  North = "^",
-  East = ">",
-  South = "v",
-  West = "<",
-}
-
-interface Point {
-  readonly x: number;
-  readonly y: number;
-}
-
-const lines = input.trim().split("\n");
-const map = lines.map((line) =>
-  line.split("").map((char) =>
-    char === Tile.Obstacle ? Tile.Obstacle : Tile.Empty
-  )
-);
-const initialGuardLocation = ((): Point => {
-  const y = lines.findIndex((line) => line.includes(Direction.North));
-  const x = lines[y].indexOf(Direction.North);
-  return { x, y };
-})();
-
-const walk = () => {
-  let location = initialGuardLocation;
-  let direction = Direction.North as Direction;
-  const path = new Set<string>();
-
-  const isWithinBounds = ({ x, y }: Point): boolean =>
-    y >= 0 && y < map.length && x >= 0 && x < map[0].length;
-  while (isWithinBounds(location)) {
-    const nextLocation = (() => {
-      switch (direction) {
-        case Direction.North:
-          return { x: location.x, y: location.y - 1 };
-        case Direction.East:
-          return { x: location.x + 1, y: location.y };
-        case Direction.South:
-          return { x: location.x, y: location.y + 1 };
-        case Direction.West:
-          return { x: location.x - 1, y: location.y };
+const parseMap = () => {
+  const lines = input.trim().split("\n");
+  const map: Grid<Tile> = lines.map((row) =>
+    row.split("").map((c) => {
+      switch (c) {
+        case "#":
+          return Tile.Obstacle;
+        default:
+          return Tile.Empty;
       }
-    })();
-
-    const isObstacle = (point: Point): boolean =>
-      map[point.y]?.[point.x] === Tile.Obstacle;
-    if (isObstacle(nextLocation)) {
-      const nextDirection = (() => {
-        switch (direction) {
-          case Direction.North:
-            return Direction.East;
-          case Direction.East:
-            return Direction.South;
-          case Direction.South:
-            return Direction.West;
-          case Direction.West:
-            return Direction.North;
-        }
-      })();
-      direction = nextDirection;
-    } else {
-      location = nextLocation;
-      const key = `${direction} ${location.x},${location.y}`;
-      const isLoop = path.has(key);
-      if (isLoop) return [true, path] as const;
-      path.add(key);
-    }
-  }
-
-  return [false, path] as const;
+    })
+  );
+  const robotY = lines.findIndex((line) => line.includes("^"));
+  const robotX = lines[robotY].indexOf("^");
+  return { map, robot: point(robotX, robotY) };
 };
 
-const [, path] = walk();
-console.log(
-  new Set(Array.from(path).map((key) => key.slice(2))).size,
-);
+const { map, robot } = parseMap();
 
-const loopOpportunities = new Set<string>();
-for (const key of path) {
-  const [x, y] = key.slice(2).split(",").map(Number);
-  const tileBefore = map[y]?.[x];
-  map[y][x] = Tile.Obstacle;
-  const [isLoop] = walk();
-  if (isLoop) loopOpportunities.add(`${x},${y}`);
-  map[y][x] = tileBefore;
+const walk = (map: Grid<Tile>, robot: Point) => {
+  const getNextTurn = (
+    robot: Point,
+    direction: Direction,
+  ): [isTurn: boolean, turnPoint: Point] => {
+    let position = robot;
+    while (true) {
+      const next = getAdjacentPoint(position, direction);
+      if (!isInBounds(map, next)) {
+        return [false, position];
+      } else if (getPoint(map, next) === Tile.Empty) {
+        position = next;
+      } else {
+        return [true, position];
+      }
+    }
+  };
+  const nextDirection = {
+    [Direction.North]: Direction.East,
+    [Direction.East]: Direction.South,
+    [Direction.South]: Direction.West,
+    [Direction.West]: Direction.North,
+  } as const;
+
+  const path = new ObjectSet<{ direction: Direction; position: Point }>();
+
+  let direction = Direction.North;
+  let position = robot;
+  let isLoop = false;
+  path.add({ direction, position });
+
+  while (true) {
+    const [isTurn, turnPoint] = getNextTurn(position, direction);
+
+    position = turnPoint;
+    direction = isTurn ? nextDirection[direction] : direction;
+
+    isLoop = path.has({ direction, position });
+    if (isLoop) break;
+
+    path.add({ direction, position });
+
+    if (!isTurn) break;
+  }
+
+  const steps = function* () {
+    const iterator = Iterator.from(path);
+    let { position, direction } = iterator.next().value!;
+
+    yield position;
+
+    for (const next of iterator) {
+      while (!isSamePoint(position, next.position)) {
+        position = getAdjacentPoint(position, direction);
+        yield position;
+      }
+      direction = next.direction;
+    }
+  };
+
+  return [steps, isLoop] as const;
+};
+
+// deno-lint-ignore no-unused-vars
+const printMap = (map: Grid<Tile>, robot: Point) => {
+  const lines = map.map((row, y) =>
+    row.map((tile, x) => isSamePoint(robot, point(x, y)) ? "@" : tile)
+  );
+  console.log(lines.map((line) => line.join("")).join("\n"));
+};
+
+const [steps] = walk(map, robot);
+const uniquePoints = new ObjectSet<Point>();
+for (const step of steps()) {
+  uniquePoints.add(step);
+}
+console.log(uniquePoints.size);
+
+const loopOpportunities = new ObjectSet<Point>();
+for (const step of steps()) {
+  if (isSamePoint(step, robot)) continue;
+  if (loopOpportunities.has(step)) continue;
+
+  map[step.y][step.x] = Tile.Obstacle;
+  const [, isLoop] = walk(map, robot);
+  if (isLoop) loopOpportunities.add(step);
+  map[step.y][step.x] = Tile.Empty;
 }
 console.log(loopOpportunities.size);
