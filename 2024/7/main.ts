@@ -30,38 +30,41 @@ enum Operator {
 }
 const operators = [Operator.Add, Operator.Multiply, Operator.Concatenate];
 
-const evaluateOperation = (operator: Operator, a: number, b: number) => {
+const reverseOperator = (operator: Operator, left: number, right: number) => {
   switch (operator) {
-    case Operator.Add:
-      return a + b;
-    case Operator.Multiply:
-      return a * b;
-    case Operator.Concatenate:
-      return Number(`${a}${b}`);
+    case Operator.Add: {
+      return left - right;
+    }
+    case Operator.Multiply: {
+      const result = left / right;
+      return Number.isInteger(result) ? result : NaN;
+    }
+    case Operator.Concatenate: {
+      const rightLength = Math.floor(Math.log10(right)) + 1;
+      const divisor = Math.pow(10, rightLength);
+      return left % divisor === right ? Math.floor(left / divisor) : NaN;
+    }
   }
 };
 
-const evaluateEquation = (operands: number[], operators: Operator[]) => {
-  let result = operands[0];
-  for (let i = 1; i < operands.length; i++) {
-    result = evaluateOperation(operators[i - 1], result, operands[i]);
+const canMakeTestValue = (testValue: number, operands: number[]) => {
+  if (operands.length === 1) {
+    return operands[0] === testValue;
   }
-  return result;
+
+  for (const operator of operators) {
+    const operand = operands.at(-1)!;
+    const rest = operands.slice(0, -1);
+    const result = reverseOperator(operator, testValue, operand);
+
+    if (Number.isNaN(result)) continue;
+    if (canMakeTestValue(result, rest)) return true;
+  }
+
+  return false;
 };
 
-const getNOperatorCombinations = (n: number): Operator[][] => {
-  if (n === 1) {
-    return operators.map((operator) => [operator]);
-  }
-  const subCombinations = getNOperatorCombinations(n - 1);
-  return operators.flatMap((operator) =>
-    subCombinations.map((subCombination) => [...subCombination, operator])
-  );
-};
-
-const result = equations.filter(({ testValue, operands }) =>
-  getNOperatorCombinations(operands.length).some((operators) =>
-    evaluateEquation(operands, operators) === testValue
-  )
+const validEquations = equations.filter(({ testValue, operands }) =>
+  canMakeTestValue(testValue, operands)
 );
-console.log(sumOf(result, ({ testValue }) => testValue));
+console.log(sumOf(validEquations, ({ testValue }) => testValue));
