@@ -1,4 +1,7 @@
 import { getInput } from "@utilities/getInput.ts";
+import { Grid } from "@utilities/grid/Grid.ts";
+import { point } from "@utilities/grid/Point.ts";
+import { getPoint } from "@utilities/grid/getPoint.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -19,36 +22,28 @@ const input = DEBUG
   : await getInput(8);
 
 const lines = input.trim().split("\n");
-const map = lines.map((line) => line.split(""));
-const frequencies = new Set(
-  map.flatMap((row) => row).filter((cell) => cell !== "."),
-);
-const coordinates = map.flatMap((row, y) => row.flatMap((_, x) => [{ x, y }]));
-const antennaCoordinates = coordinates.filter(({ x, y }) => map[y][x] !== ".");
-const antennaCoordinatesByFrequency = Map.groupBy(
-  antennaCoordinates,
-  ({ x, y }) => map[y][x],
-);
+const map: Grid<string> = lines.map((line) => line.split(""));
+const points = map.flatMap((row, y) => row.flatMap((_, x) => [point(x, y)]));
+const antennas = points.filter((p) => getPoint(map, p) !== ".");
+const antennasByFrequency = Map.groupBy(antennas, (p) => getPoint(map, p)!);
 
-const part1AntinodeCoordinates = coordinates.filter(
+const part1Antinodes = points.filter(
   ({ x, y }) => {
-    for (const frequency of frequencies) {
-      const antennas = antennaCoordinatesByFrequency.get(frequency) ?? [];
+    for (const [frequency, antennas] of antennasByFrequency) {
       for (const antenna of antennas) {
         const dx = antenna.x - x;
         const dy = antenna.y - y;
         if (dx === 0 && dy === 0) continue;
 
-        const doubleDistanceX = x + dx * 2;
-        const doubleDistanceY = y + dy * 2;
+        const doubleDistance = point(x + dx * 2, y + dy * 2);
         const isSameFrequencyDoubleDistance =
-          map[doubleDistanceY]?.[doubleDistanceX] === frequency;
+          getPoint(map, doubleDistance) === frequency;
         if (isSameFrequencyDoubleDistance) return true;
       }
     }
   },
 );
-console.log(part1AntinodeCoordinates.length);
+console.log(part1Antinodes.length);
 
 function* allPairs<T>(array: T[]) {
   for (let i = 0; i < array.length; i++) {
@@ -58,11 +53,11 @@ function* allPairs<T>(array: T[]) {
   }
 }
 
-const frequencyLines = Array.from(frequencies).flatMap((frequency) =>
-  Array.from(allPairs(antennaCoordinatesByFrequency.get(frequency)!))
+const frequencyLines = Array.from(
+  antennasByFrequency.values().flatMap((antennas) => allPairs(antennas)),
 );
 
-const part2AntinodeCoordinates = coordinates.filter(
+const part2AntinodeCoordinates = points.filter(
   ({ x, y }) => {
     for (const [antenna1, antenna2] of frequencyLines) {
       const intersectsLine = (x - antenna1.x) * (antenna2.y - antenna1.y) ===
