@@ -1,5 +1,7 @@
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { getNumberOfDigits } from "@utilities/getNumberOfDigits.ts";
+import { splitNumber } from "@utilities/splitNumber.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -40,9 +42,9 @@ const reverseOperator = (operator: Operator, left: number, right: number) => {
       return Number.isInteger(result) ? result : NaN;
     }
     case Operator.Concatenate: {
-      const rightLength = Math.floor(Math.log10(right)) + 1;
-      const divisor = Math.pow(10, rightLength);
-      return left % divisor === right ? Math.floor(left / divisor) : NaN;
+      const rightLength = getNumberOfDigits(right);
+      const [splitLeft, splitRight] = splitNumber(left, rightLength);
+      return splitRight === right ? splitLeft : NaN;
     }
   }
 };

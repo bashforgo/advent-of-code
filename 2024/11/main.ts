@@ -1,6 +1,8 @@
 import { memoize } from "@std/cache";
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { getNumberOfDigits } from "@utilities/getNumberOfDigits.ts";
+import { splitNumber } from "@utilities/splitNumber.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -10,16 +12,6 @@ const input = DEBUG
   : await getInput(11);
 
 const stones = input.trim().split(" ").map(Number);
-
-const getNumberOfDigits = (n: number) => {
-  return String(n).length;
-};
-const splitNumber = (n: number, afterDigit: number) => {
-  const nString = String(n);
-  const firstPart = nString.slice(0, nString.length - afterDigit);
-  const secondPart = nString.slice(nString.length - afterDigit);
-  return [Number(firstPart), Number(secondPart)];
-};
 
 const blink = memoize((stone: number, times: number): number => {
   if (times === 0) return 1;
