@@ -1,9 +1,7 @@
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
-import { addPoints } from "@utilities/grid/addPoints.ts";
 import { Direction } from "@utilities/grid/Direction.ts";
 import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
-import { getDelta } from "@utilities/grid/getDelta.ts";
 import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { isInBounds } from "@utilities/grid/isInBounds.ts";
@@ -35,17 +33,6 @@ vvv<<^>^v^^><<>>><>^<<><^vv^^<>vvv<>><^^v>^>vv<>v<<<<v<^v>^<^^>>>^<v<v
 ^^>vv<^v^v<vv>^<><v<^v>^^^>>>^^vvv^>vvv<>>>^<^>>>>>^<<^v>^vvv<>^<><<v>
 v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^
 `
-  //   ? `\
-  // #######
-  // #...#.#
-  // #.....#
-  // #..OO@#
-  // #..O..#
-  // #.....#
-  // #######
-
-  // <vv<<^^<<^^
-  // `
   : await getInput(15);
 
 const [mapString, movesString] = input.trim().split("\n\n");
@@ -102,7 +89,7 @@ const moves = parseMoves();
 
     const [[firstPoint, firstTile]] = ahead;
     if (firstTile === Tile.Empty) {
-      return [map, addPoints(robot, getDelta(direction))] as const;
+      return [map, getAdjacentPoint(robot, direction)] as const;
     }
     if (firstTile === Tile.Wall) {
       return [map, robot] as const;
@@ -141,13 +128,13 @@ const moves = parseMoves();
       Tile.Box,
     ];
 
-    return [newMap, addPoints(robot, getDelta(direction))] as const;
+    return [newMap, getAdjacentPoint(robot, direction)] as const;
 
     function* peek(map: Grid<Tile>, point: Point, direction: Direction) {
       let next = point;
 
       while (true) {
-        next = addPoints(next, getDelta(direction));
+        next = getAdjacentPoint(next, direction);
 
         if (isInBounds(map, next)) {
           yield [next, getPoint(map, next)!] as const;
@@ -158,6 +145,7 @@ const moves = parseMoves();
     }
   };
 
+  // deno-lint-ignore no-unused-vars
   const printMap = (map: Grid<Tile>, robot: Point) => {
     const mapWithRobot = map.map((row, y) =>
       row.map((tile, x) => {
@@ -177,7 +165,6 @@ const moves = parseMoves();
     [currentMap, currentRobot] = step(currentMap, currentRobot, move);
   }
 
-  printMap(currentMap, currentRobot);
   console.log(sumOf(
     currentMap.flatMap((row, y) =>
       row.flatMap((tile, x) => tile === Tile.Box ? [point(x, y)] : [])
@@ -224,7 +211,7 @@ const moves = parseMoves();
   const { map, robot } = parseMap();
 
   const step = (map: Grid<Tile>, robot: Point, direction: Direction) => {
-    const nextRobot = addPoints(robot, getDelta(direction));
+    const nextRobot = getAdjacentPoint(robot, direction);
     const nextTile = getPoint(map, nextRobot);
 
     if (nextTile === Tile.Empty) {
@@ -325,6 +312,7 @@ const moves = parseMoves();
     return [nextMap, nextRobot] as const;
   };
 
+  // deno-lint-ignore no-unused-vars
   const printMap = (map: Grid<Tile>, robot: Point) => {
     const mapWithRobot = map.map((row, y) =>
       row.map((tile, x) => {
@@ -342,7 +330,6 @@ const moves = parseMoves();
 
   for (const move of moves) {
     [currentMap, currentRobot] = step(currentMap, currentRobot, move);
-    printMap(currentMap, currentRobot);
   }
 
   console.log(sumOf(
