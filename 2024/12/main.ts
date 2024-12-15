@@ -1,6 +1,15 @@
 import { sumOf } from "@std/collections";
-import { getInput } from "@utilities/getInput.ts";
 import { ObjectSet } from "@utilities/ObjectSet.ts";
+import { getInput } from "@utilities/getInput.ts";
+import { Direction, directions } from "@utilities/grid/Direction.ts";
+import { Grid } from "@utilities/grid/Grid.ts";
+import { Point, point } from "@utilities/grid/Point.ts";
+import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
+import {
+  getAdjacentPoints,
+  getAdjacentPointsInBounds,
+} from "@utilities/grid/getAdjacentPoints.ts";
+import { getPoint } from "@utilities/grid/getPoint.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -19,27 +28,8 @@ MMMISSJEEE
   : await getInput(12);
 
 const lines = input.trim().split("\n");
-const map = lines.map((line) => line.split(""));
-const points = map.flatMap((row, y) => row.map((_, x) => ({ x, y })));
-
-interface Point {
-  readonly x: number;
-  readonly y: number;
-}
-
-const isInBounds = ({ x, y }: Point) =>
-  y >= 0 && y < map.length && x >= 0 && x < map[y].length;
-function* adjacentPoints({ x, y }: Point, isInBoundsFn = isInBounds) {
-  const north = { x, y: y - 1 };
-  if (isInBoundsFn(north)) yield north;
-  const east = { x: x + 1, y };
-  if (isInBoundsFn(east)) yield east;
-  const south = { x, y: y + 1 };
-  if (isInBoundsFn(south)) yield south;
-  const west = { x: x - 1, y };
-  if (isInBoundsFn(west)) yield west;
-}
-const getPlant = ({ x, y }: Point) => map[y]?.[x];
+const map: Grid<string> = lines.map((line) => line.split(""));
+const points = map.flatMap((row, y) => row.map((_, x) => point(x, y)));
 
 const areas = [] as ObjectSet<Point>[];
 const visited = new ObjectSet<Point>();
@@ -52,9 +42,9 @@ for (const point of points) {
     visited.add(point);
     area.add(point);
 
-    const plant = getPlant(point);
-    for (const adjacent of adjacentPoints(point)) {
-      const adjacentPlant = getPlant(adjacent);
+    const plant = getPoint(map, point);
+    for (const adjacent of getAdjacentPointsInBounds(map, point)) {
+      const adjacentPlant = getPoint(map, adjacent);
       if (plant === adjacentPlant) visit(adjacent);
     }
   };
@@ -66,7 +56,7 @@ for (const point of points) {
 const calculateArea = (area: ObjectSet<Point>) => area.size;
 const calculatePerimeter = (area: ObjectSet<Point>) => {
   return sumOf(area, (point) => {
-    return sumOf(adjacentPoints(point, () => true), (adjacent) => {
+    return sumOf(getAdjacentPoints(point), (adjacent) => {
       return area.has(adjacent) ? 0 : 1;
     });
   });
@@ -76,24 +66,6 @@ console.log(
   sumOf(areas, (area) => calculateArea(area) * calculatePerimeter(area)),
 );
 
-enum Direction {
-  North = "North",
-  East = "East",
-  South = "South",
-  West = "West",
-}
-const directions = [
-  Direction.North,
-  Direction.East,
-  Direction.South,
-  Direction.West,
-] as const;
-const deltaPoints = new Map<Direction, Point>([
-  [Direction.North, { x: 0, y: -1 }],
-  [Direction.East, { x: 1, y: 0 }],
-  [Direction.South, { x: 0, y: 1 }],
-  [Direction.West, { x: -1, y: 0 }],
-]) as ReadonlyMap<Direction, Point>;
 const perpendicularDirections = new Map<Direction, [Direction, Direction]>([
   [Direction.North, [Direction.West, Direction.East]],
   [Direction.East, [Direction.North, Direction.South]],
@@ -108,8 +80,7 @@ function* walkDirection(
 ) {
   let current = start;
   while (true) {
-    const delta = deltaPoints.get(direction)!;
-    const next = { x: current.x + delta.x, y: current.y + delta.y };
+    const next = getAdjacentPoint(current, direction);
     if (!area.has(next)) break;
     yield next;
     current = next;
@@ -117,10 +88,9 @@ function* walkDirection(
 }
 
 const isPerimeterPoint = (point: Point, direction: Direction) => {
-  const plant = getPlant(point);
-  const delta = deltaPoints.get(direction)!;
-  const adjacent = { x: point.x + delta.x, y: point.y + delta.y };
-  const adjacentPlant = getPlant(adjacent);
+  const plant = getPoint(map, point);
+  const adjacent = getAdjacentPoint(point, direction);
+  const adjacentPlant = getPoint(map, adjacent);
   return plant !== adjacentPlant;
 };
 
@@ -146,9 +116,9 @@ function* walkSide(
 
 const calculateNumberOfSides = (area: ObjectSet<Point>) => {
   let numberOfSides = 0;
-  const seenByDirection = new Map<Direction, ObjectSet<Point>>(
+  const seenByDirection = new Map(
     directions.map((direction) => [direction, new ObjectSet<Point>()]),
-  ) as ReadonlyMap<Direction, ObjectSet<Point>>;
+  );
 
   for (const point of area) {
     for (const direction of directions) {
