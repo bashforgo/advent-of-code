@@ -1,5 +1,11 @@
 import { sumOf } from "@std/collections/sum-of";
 import { getInput } from "@utilities/getInput.ts";
+import { Direction } from "@utilities/grid/Direction.ts";
+import { Grid } from "@utilities/grid/Grid.ts";
+import { Point, point } from "@utilities/grid/Point.ts";
+import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
+import { getPoint } from "@utilities/grid/getPoint.ts";
+import { isInBounds } from "@utilities/grid/isInBounds.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -16,39 +22,31 @@ const input = DEBUG
   : await getInput(10);
 
 const lines = input.trim().split("\n");
-const map = lines.map((line) => line.split("").map(Number));
-const points = map.flatMap((row, y) => row.map((_, x) => ({ x, y })));
+const map: Grid<number> = lines.map((line) => line.split("").map(Number));
+const points = map.flatMap((row, y) => row.map((_, x) => point(x, y)));
 
-interface Point {
-  readonly x: number;
-  readonly y: number;
+function* adjacentPoints(point: Point) {
+  const north = getAdjacentPoint(point, Direction.North);
+  if (isInBounds(map, north)) yield north;
+  const east = getAdjacentPoint(point, Direction.East);
+  if (isInBounds(map, east)) yield east;
+  const south = getAdjacentPoint(point, Direction.South);
+  if (isInBounds(map, south)) yield south;
+  const west = getAdjacentPoint(point, Direction.West);
+  if (isInBounds(map, west)) yield west;
 }
-
-const isInBounds = ({ x, y }: Point) =>
-  y >= 0 && y < map.length && x >= 0 && x < map[y].length;
-function* adjacentPoints({ x, y }: Point) {
-  const north = { x, y: y - 1 };
-  if (isInBounds(north)) yield north;
-  const east = { x: x + 1, y };
-  if (isInBounds(east)) yield east;
-  const south = { x, y: y + 1 };
-  if (isInBounds(south)) yield south;
-  const west = { x: x - 1, y };
-  if (isInBounds(west)) yield west;
-}
-const getHeight = ({ x, y }: Point) => map[y][x];
 
 const isTrailhead = (point: Point) => {
-  const height = getHeight(point);
+  const height = getPoint(map, point);
   return height === 0;
 };
 
 const reachablePeaks = (point: Point) => {
-  const height = getHeight(point);
+  const height = getPoint(map, point)!;
 
   function* inner(point: Point, nextHeight: number): Generator<Point> {
     for (const adjacent of adjacentPoints(point)) {
-      const adjacentHeight = getHeight(adjacent);
+      const adjacentHeight = getPoint(map, adjacent);
       if (adjacentHeight === 9 && 9 === nextHeight) yield adjacent;
       if (adjacentHeight === nextHeight) yield* inner(adjacent, nextHeight + 1);
     }
@@ -71,7 +69,7 @@ const trailheads = points.filter(isTrailhead);
 console.log(sumOf(trailheads, (p) => reachablePeaks(p).length));
 
 function* trails(point: Point): Generator<Point[]> {
-  const height = getHeight(point);
+  const height = getPoint(map, point)!;
 
   if (height === 9) {
     yield [point];
@@ -79,7 +77,7 @@ function* trails(point: Point): Generator<Point[]> {
   }
 
   for (const adjacent of adjacentPoints(point)) {
-    const adjacentHeight = getHeight(adjacent);
+    const adjacentHeight = getPoint(map, adjacent);
     if (adjacentHeight !== height + 1) continue;
 
     for (const trail of trails(adjacent)) {
