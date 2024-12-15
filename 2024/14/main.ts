@@ -1,5 +1,5 @@
 import { getInput } from "@utilities/getInput.ts";
-import { Point, point } from "@utilities/Point.ts";
+import { Point, point } from "@utilities/grid/Point.ts";
 
 const DEBUG = false;
 const [width, height, input] = DEBUG

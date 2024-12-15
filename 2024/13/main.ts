@@ -1,7 +1,7 @@
 import { sumOf } from "@std/collections";
-import { addPoints } from "@utilities/addPoints.ts";
 import { getInput } from "@utilities/getInput.ts";
-import { Point, point } from "@utilities/Point.ts";
+import { addPoints } from "@utilities/grid/addPoints.ts";
+import { Point, point } from "@utilities/grid/Point.ts";
 
 const DEBUG = false;
 const input = DEBUG
