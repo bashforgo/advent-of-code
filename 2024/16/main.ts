@@ -51,7 +51,7 @@ const input = DEBUG
 #S#.............#
 #################
 `,
-  ][0]
+  ][1]
   : await getInput(16);
 
 const lines = input.trim().split("\n");
@@ -99,43 +99,71 @@ const aStar = (
   const estimatedTotalCost = new ObjectMap<State, number>();
   estimatedTotalCost.set(start, heuristic(start));
 
-  const cameFrom = new ObjectMap<State, State>();
+  const cameFrom = new ObjectMap<State, State[]>();
+
+  let optimalCost = Infinity;
+  let optimalGoalStates = new ObjectSet<State>();
 
   while (open.size > 0) {
-    let current = minBy(open, (point) => estimatedTotalCost.get(point)!)!;
+    const current = minBy(open, (point) => estimatedTotalCost.get(point)!)!;
+    open.delete(current);
 
     if (isSamePoint(current.point, goal)) {
       const cost = costFromStart.get(current)!;
 
-      const path = [current];
-      while (cameFrom.has(current)) {
-        current = cameFrom.get(current)!;
-        path.unshift(current);
+      if (cost < optimalCost) {
+        optimalCost = cost;
+        optimalGoalStates = new ObjectSet();
+        optimalGoalStates.add(current);
+      } else if (cost === optimalCost) {
+        optimalGoalStates.add(current);
       }
-      return [path, cost] as const;
+
+      continue;
     }
 
-    open.delete(current);
     closed.add(current);
 
     const neighbors = getNeighbors(current);
     for (const { state: neighbor, cost } of neighbors) {
-      if (closed.has(neighbor)) continue;
-
       const score = costFromStart.get(current)! + cost;
-      if (score < (costFromStart.get(neighbor) ?? Infinity)) {
-        if (!open.has(neighbor)) open.add(neighbor);
-        cameFrom.set(neighbor, current);
+      const neighborCost = costFromStart.get(neighbor) ?? Infinity;
+
+      if (closed.has(neighbor) && score > neighborCost) continue;
+
+      if (score < neighborCost) {
+        open.add(neighbor);
+        cameFrom.set(neighbor, [current]);
         costFromStart.set(neighbor, score);
         estimatedTotalCost.set(neighbor, score + heuristic(neighbor));
+      } else if (score === neighborCost) {
+        cameFrom.get(neighbor)!.push(current);
       }
     }
   }
 
-  throw new Error("No path found");
+  const paths = [] as State[][];
+
+  const reconstructPath = (state: State, path: State[] = []) => {
+    path.unshift(state);
+    const previousStates = cameFrom.get(state);
+    if (previousStates == null) {
+      paths.push(path);
+    } else {
+      for (const previousState of previousStates) {
+        reconstructPath(previousState, path);
+      }
+    }
+  };
+
+  for (const goalState of optimalGoalStates) {
+    reconstructPath(goalState);
+  }
+
+  return paths;
 };
 
-const [path, cost] = aStar(
+const paths = aStar(
   { point: start, direction: Direction.East },
   end,
   ({ point, direction }) => {
@@ -153,4 +181,10 @@ const [path, cost] = aStar(
   },
 );
 
-console.log(cost);
+const points = new ObjectSet<Point>();
+for (const path of paths) {
+  for (const { point } of path) {
+    points.add(point);
+  }
+}
+console.log(points.size);
