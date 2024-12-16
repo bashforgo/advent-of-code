@@ -1,4 +1,12 @@
 export class ObjectSet<T> {
+  static from<T>(iterable: Iterable<T>) {
+    const set = new ObjectSet<T>();
+    for (const value of iterable) {
+      set.add(value);
+    }
+    return set;
+  }
+
   readonly #map = new Map<string, T>();
 
   add(value: T) {

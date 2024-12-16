@@ -120,10 +120,7 @@ const printMap = (map: Grid<Tile>, robot: Point) => {
 };
 
 const [steps] = walk(map, robot);
-const uniquePoints = new ObjectSet<Point>();
-for (const step of steps()) {
-  uniquePoints.add(step);
-}
+const uniquePoints = ObjectSet.from(steps());
 console.log(uniquePoints.size);
 
 const loopOpportunities = new ObjectSet<Point>();
