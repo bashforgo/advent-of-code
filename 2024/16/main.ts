@@ -1,16 +1,20 @@
-import { minBy } from "@std/collections/min-by";
+import { minBy } from "@std/collections";
+import { dijkstras, GetWeight } from "@utilities/dijkstras.ts";
 import { getInput } from "@utilities/getInput.ts";
 import {
   Direction,
   perpendicularDirections,
 } from "@utilities/grid/Direction.ts";
 import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
+import { getDistance } from "@utilities/grid/getDistance.ts";
 import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { isSamePoint } from "@utilities/grid/isSamePoint.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
 import { ObjectMap } from "@utilities/ObjectMap.ts";
 import { ObjectSet } from "@utilities/ObjectSet.ts";
+import { throw_ } from "@utilities/throw.ts";
+import { printBraille } from "@utilities/grid/printBraille.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -59,132 +63,134 @@ const lines = input.trim().split("\n");
 enum Tile {
   Wall = "#",
   Empty = ".",
-  Start = "S",
-  End = "E",
 }
 
-const map: Grid<Tile> = lines.map((line) => line.split("") as Tile[]);
-const start = (() => {
-  const y = map.findIndex((row) => row.includes(Tile.Start));
-  return point(map[y].indexOf(Tile.Start), y);
-})();
-const end = (() => {
-  const y = map.findIndex((row) => row.includes(Tile.End));
-  return point(map[y].indexOf(Tile.End), y);
-})();
-
-const distance = (a: Point, b: Point) => {
-  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-};
-
-interface State {
-  point: Point;
-  direction: Direction;
-}
-
-const aStar = (
-  start: State,
-  goal: Point,
-  getNeighbors: (state: State) => { state: State; cost: number }[],
-  heuristic = ({ point }: State) => distance(point, goal),
-) => {
-  const open = new ObjectSet<State>();
-  open.add(start);
-
-  const closed = new ObjectSet<State>();
-
-  const costFromStart = new ObjectMap<State, number>();
-  costFromStart.set(start, 0);
-
-  const estimatedTotalCost = new ObjectMap<State, number>();
-  estimatedTotalCost.set(start, heuristic(start));
-
-  const cameFrom = new ObjectMap<State, State[]>();
-
-  let optimalCost = Infinity;
-  let optimalGoalStates = new ObjectSet<State>();
-
-  while (open.size > 0) {
-    const current = minBy(open, (point) => estimatedTotalCost.get(point)!)!;
-    open.delete(current);
-
-    if (isSamePoint(current.point, goal)) {
-      const cost = costFromStart.get(current)!;
-
-      if (cost < optimalCost) {
-        optimalCost = cost;
-        optimalGoalStates = new ObjectSet();
-        optimalGoalStates.add(current);
-      } else if (cost === optimalCost) {
-        optimalGoalStates.add(current);
-      }
-
-      continue;
+const map: Grid<Tile> = lines.map((line) =>
+  line.split("").map((c) => {
+    switch (c) {
+      case "#":
+        return Tile.Wall;
+      default:
+        return Tile.Empty;
     }
-
-    closed.add(current);
-
-    const neighbors = getNeighbors(current);
-    for (const { state: neighbor, cost } of neighbors) {
-      const score = costFromStart.get(current)! + cost;
-      const neighborCost = costFromStart.get(neighbor) ?? Infinity;
-
-      if (closed.has(neighbor) && score > neighborCost) continue;
-
-      if (score < neighborCost) {
-        open.add(neighbor);
-        cameFrom.set(neighbor, [current]);
-        costFromStart.set(neighbor, score);
-        estimatedTotalCost.set(neighbor, score + heuristic(neighbor));
-      } else if (score === neighborCost) {
-        cameFrom.get(neighbor)!.push(current);
-      }
-    }
-  }
-
-  const paths = [] as State[][];
-
-  const reconstructPath = (state: State, path: State[] = []) => {
-    path.unshift(state);
-    const previousStates = cameFrom.get(state);
-    if (previousStates == null) {
-      paths.push(path);
-    } else {
-      for (const previousState of previousStates) {
-        reconstructPath(previousState, path);
-      }
-    }
-  };
-
-  for (const goalState of optimalGoalStates) {
-    reconstructPath(goalState);
-  }
-
-  return paths;
-};
-
-const paths = aStar(
-  { point: start, direction: Direction.East },
-  end,
-  ({ point, direction }) => {
-    const adjacent = getAdjacentPoint(point, direction);
-    const adjacentTile = getPoint(map, adjacent);
-    return [
-      ...adjacentTile !== Tile.Wall
-        ? [{ state: { point: adjacent, direction }, cost: 1 }]
-        : [],
-      ...perpendicularDirections[direction].map((newDirection) => ({
-        state: { point, direction: newDirection },
-        cost: 1000,
-      })),
-    ];
-  },
+  })
 );
 
-const points = new ObjectSet<Point>();
-for (const path of paths) {
-  for (const { point } of path) {
-    points.add(point);
+printBraille(map, (tile) => tile === Tile.Wall);
+
+const start = (() => {
+  const y = lines.findIndex((line) => line.includes("S"));
+  return point(lines[y].indexOf("S"), y);
+})();
+const end = (() => {
+  const y = lines.findIndex((line) => line.includes("E"));
+  return point(lines[y].indexOf("E"), y);
+})();
+
+interface State {
+  readonly point: Point;
+  readonly direction: Direction;
+}
+
+const maze = new ObjectMap<State, ObjectSet<State>>();
+const open = ObjectSet.from<State>([{
+  point: start,
+  direction: Direction.East,
+}]);
+
+while (open.size > 0) {
+  const [previousState] = Array.from(Iterator.from(open).take(1));
+  open.delete(previousState);
+  maze.set(previousState, new ObjectSet<State>());
+
+  let currentLocation = previousState.point;
+  const currentDirection = previousState.direction;
+
+  while (true) {
+    const turns = perpendicularDirections[currentDirection].filter((turn) => {
+      const nextLocation = getAdjacentPoint(currentLocation, turn);
+      const nextTile = getPoint(map, nextLocation);
+      return nextTile === Tile.Empty;
+    });
+    for (const turn of turns) {
+      const state = { point: currentLocation, direction: turn };
+      if (maze.has(state)) continue;
+      maze.get(previousState)!.add(state);
+      open.add(state);
+    }
+
+    const nextLocation = getAdjacentPoint(currentLocation, currentDirection);
+    const nextTile = getPoint(map, nextLocation);
+
+    if (nextTile === Tile.Wall) {
+      const state = { point: currentLocation, direction: currentDirection };
+      if (!isSamePoint(currentLocation, previousState.point)) {
+        maze.get(previousState)!.add(state);
+      }
+      if (!maze.has(state)) open.add(state);
+      break;
+    }
+
+    currentLocation = nextLocation;
   }
 }
-console.log(points.size);
+
+interface State {
+  readonly point: Point;
+  readonly direction: Direction;
+}
+
+const getWeight: GetWeight<State> = (a, b) =>
+  (a.direction === b.direction ? 0 : 1000) + getDistance(a.point, b.point);
+
+const { distances, previous } = dijkstras<State>(
+  { point: start, direction: Direction.East },
+  (state) => Array.from(maze.get(state)!),
+  getWeight,
+);
+
+const [endState, cost] = minBy(
+  Iterator.from(distances).filter(([state]) => isSamePoint(state.point, end)),
+  ([, distance]) => distance,
+) ?? throw_("No path found");
+
+console.log(cost);
+
+const reconstructPaths = function* (
+  state: State,
+): Generator<State[]> {
+  const previousStates = previous.get(state);
+
+  if (previousStates == null) {
+    yield [state];
+    return;
+  }
+
+  for (const previousState of previousStates) {
+    for (const path of reconstructPaths(previousState)) {
+      yield [...path, state];
+    }
+  }
+};
+
+const paths = Array.from(reconstructPaths(endState));
+
+const pathToPoints = function* ([first, ...path]: State[]) {
+  let currentLocation = first.point;
+  let currentDirection = first.direction;
+
+  yield currentLocation;
+
+  for (const targetState of path) {
+    while (!isSamePoint(currentLocation, targetState.point)) {
+      currentLocation = getAdjacentPoint(currentLocation, currentDirection);
+      yield currentLocation;
+    }
+    currentDirection = targetState.direction;
+  }
+};
+
+const pointsOnAnyPath = ObjectSet.from(
+  Iterator.from(paths).flatMap((ps) => pathToPoints(ps)),
+);
+console.log(pointsOnAnyPath.size);
