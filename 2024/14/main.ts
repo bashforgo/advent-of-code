@@ -1,5 +1,6 @@
 import { getInput } from "@utilities/getInput.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
+import { printBrailleRaw } from "@utilities/grid/printBraille.ts";
 
 const DEBUG = false;
 const [width, height, input] = DEBUG
@@ -62,61 +63,6 @@ const print = (robots: readonly Robot[]) => {
   console.log(map);
 };
 
-const generateBrailleMap = (robots: readonly Robot[]) => {
-  type Braille = readonly [
-    [boolean, boolean],
-    [boolean, boolean],
-    [boolean, boolean],
-    [boolean, boolean],
-  ];
-  const getChar = (
-    [
-      [_1, _4],
-      [_2, _5],
-      [_3, _6],
-      [_7, _8],
-    ]: Braille,
-  ) => {
-    const code = Number(_1) << 0 |
-      Number(_2) << 1 |
-      Number(_3) << 2 |
-      Number(_4) << 3 |
-      Number(_5) << 4 |
-      Number(_6) << 5 |
-      Number(_7) << 6 |
-      Number(_8) << 7;
-    return String.fromCharCode(0x2800 + code);
-  };
-
-  const robotsByPosition = Map.groupBy(
-    robots,
-    (robot) => `${robot.position.x},${robot.position.y}`,
-  );
-
-  let map = "";
-  for (let y = 0; y < height; y += 4) {
-    for (let x = 0; x < width; x += 2) {
-      const braille: Braille = [
-        [false, false],
-        [false, false],
-        [false, false],
-        [false, false],
-      ];
-      for (let dy = 0; dy < 4; dy++) {
-        for (let dx = 0; dx < 2; dx++) {
-          const robots = robotsByPosition.get(`${x + dx},${y + dy}`);
-          if (robots) {
-            braille[dy][dx] = true;
-          }
-        }
-      }
-      map += getChar(braille);
-    }
-    map += "\n";
-  }
-  return map;
-};
-
 const getRobotsByQuadrant = (robots: readonly Robot[]) => {
   const getQuadrant = (point: Point): number => {
     const verticalCenter = (height / 2) | 0;
@@ -165,6 +111,16 @@ const getRobotsByQuadrant = (robots: readonly Robot[]) => {
       .some((robots) => robots.length > 215);
     if (isOddDistribution) break;
   }
-  console.log(generateBrailleMap(updatedRobots));
+  {
+    const robotsByPosition = Map.groupBy(
+      updatedRobots,
+      (robot) => `${robot.position.x},${robot.position.y}`,
+    );
+    printBrailleRaw(
+      width,
+      height,
+      (point) => robotsByPosition.has(`${point.x},${point.y}`),
+    );
+  }
   console.log(i);
 }
