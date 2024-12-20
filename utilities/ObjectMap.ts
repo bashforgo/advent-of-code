@@ -1,4 +1,12 @@
 export class ObjectMap<TKey, TValue> {
+  static from<T, U>(iterable: Iterable<[T, U]>) {
+    const map = new ObjectMap<T, U>();
+    for (const [key, value] of iterable) {
+      map.set(key, value);
+    }
+    return map;
+  }
+
   readonly #map = new Map<string, [TKey, TValue]>();
 
   set(key: TKey, value: TValue) {

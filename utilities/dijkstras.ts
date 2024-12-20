@@ -40,5 +40,23 @@ export const dijkstras = <T>(
   return { distances, previous };
 };
 
-export type GetNeighbors<T> = (node: T) => T[];
+export const getPath = <T>(
+  end: T,
+  previous: ObjectMap<T, ObjectSet<T>>,
+) => {
+  const path: T[] = [];
+  let current: T | null = end;
+
+  while (current != null) {
+    path.unshift(current);
+    for (const cameFrom of previous.get(current) ?? [null]) {
+      current = cameFrom;
+      break;
+    }
+  }
+
+  return path;
+};
+
+export type GetNeighbors<T> = (node: T) => Iterable<T>;
 export type GetWeight<T> = (a: T, b: T) => number;
