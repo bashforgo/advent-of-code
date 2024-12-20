@@ -6,15 +6,15 @@ import {
   perpendicularDirections,
 } from "@utilities/grid/Direction.ts";
 import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
-import { getDistance } from "@utilities/grid/getDistance.ts";
+import { getManhattanDistance } from "@utilities/grid/getManhattanDistance.ts";
 import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { isSamePoint } from "@utilities/grid/isSamePoint.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
+import { printBraille } from "@utilities/grid/printBraille.ts";
 import { ObjectMap } from "@utilities/ObjectMap.ts";
 import { ObjectSet } from "@utilities/ObjectSet.ts";
 import { throw_ } from "@utilities/throw.ts";
-import { printBraille } from "@utilities/grid/printBraille.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -141,7 +141,8 @@ interface State {
 }
 
 const getWeight: GetWeight<State> = (a, b) =>
-  (a.direction === b.direction ? 0 : 1000) + getDistance(a.point, b.point);
+  (a.direction === b.direction ? 0 : 1000) +
+  getManhattanDistance(a.point, b.point);
 
 const { distances, previous } = dijkstras<State>(
   { point: start, direction: Direction.East },
