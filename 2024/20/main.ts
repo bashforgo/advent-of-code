@@ -64,28 +64,30 @@ const noCheatResult = dijkstras(
 );
 const noCheatPath = getPath(end, noCheatResult.previous);
 
-function* indexPairs(length: number) {
+function* cheatSavings(
+  minTimeSaving: number,
+  maxCheatDistance: number,
+) {
+  const length = noCheatPath.length;
   for (let i = 0; i < length; i++) {
-    for (let j = i + 1; j < length; j++) {
-      yield [i, j] as const;
-    }
-  }
-}
+    for (let j = i + 1 + minTimeSaving; j < length; j++) {
+      const [a, b] = [noCheatPath[i], noCheatPath[j]];
 
-function* cheatSavings(maxCheatDistance: number) {
-  for (const [i, j] of indexPairs(noCheatPath.length)) {
-    const [a, b] = [noCheatPath[i], noCheatPath[j]];
-    const distance = getManhattanDistance(a, b);
-    if (distance <= maxCheatDistance) {
-      yield j - i - distance;
+      const distance = getManhattanDistance(a, b);
+      if (distance > maxCheatDistance) continue;
+
+      const timeSaving = j - i - distance;
+      if (timeSaving < minTimeSaving) continue;
+
+      yield timeSaving;
     }
   }
 }
 
 console.log(
-  sumOf(cheatSavings(2).filter((s) => s >= (DEBUG ? 20 : 100)), () => 1),
+  sumOf(cheatSavings(DEBUG ? 20 : 100, 2), () => 1),
 );
 
 console.log(
-  sumOf(cheatSavings(20).filter((s) => s >= (DEBUG ? 70 : 100)), () => 1),
+  sumOf(cheatSavings(DEBUG ? 70 : 100, 20), () => 1),
 );
