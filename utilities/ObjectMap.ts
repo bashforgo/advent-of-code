@@ -1,5 +1,5 @@
 export class ObjectMap<TKey, TValue> {
-  static from<T, U>(iterable: Iterable<[T, U]>) {
+  static from<T, U>(iterable: Iterable<readonly [T, U]>) {
     const map = new ObjectMap<T, U>();
     for (const [key, value] of iterable) {
       map.set(key, value);
@@ -27,6 +27,24 @@ export class ObjectMap<TKey, TValue> {
 
   get size() {
     return this.#map.size;
+  }
+
+  *keys() {
+    for (const [, [key]] of this.#map) {
+      yield key;
+    }
+  }
+
+  *values() {
+    for (const [, [, value]] of this.#map) {
+      yield value;
+    }
+  }
+
+  *entries() {
+    for (const [, entry] of this.#map) {
+      yield entry;
+    }
   }
 
   [Symbol.iterator] = this.#map.values.bind(this.#map);
