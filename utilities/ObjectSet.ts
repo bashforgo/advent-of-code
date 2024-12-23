@@ -25,6 +25,10 @@ export class ObjectSet<T> {
     return this.#map.size;
   }
 
+  *values() {
+    yield* this.#map.values();
+  }
+
   [Symbol.iterator] = this.#map.values.bind(this.#map);
 
   #getKey(value: T) {
