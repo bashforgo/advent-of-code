@@ -44,19 +44,29 @@ export const getPath = <T>(
   end: T,
   previous: ObjectMap<T, ObjectSet<T>>,
 ) => {
-  const path: T[] = [];
-  let current: T | null = end;
+  return getPaths(end, previous).next().value ?? [];
+};
 
-  while (current != null) {
+export function* getPaths<T>(
+  end: T,
+  previous: ObjectMap<T, ObjectSet<T>>,
+) {
+  yield* inner(end, []);
+  return;
+
+  function* inner(current: T, path: T[]): Generator<T[]> {
     path.unshift(current);
-    for (const cameFrom of previous.get(current) ?? [null]) {
-      current = cameFrom;
-      break;
+
+    const previousNodes = previous.get(current);
+    if (previousNodes == null) {
+      yield path;
+    } else {
+      for (const previousNode of previousNodes) {
+        yield* inner(previousNode, [...path]);
+      }
     }
   }
-
-  return path;
-};
+}
 
 export type GetNeighbors<T> = (node: T) => Iterable<T>;
 export type GetWeight<T> = (a: T, b: T) => number;
