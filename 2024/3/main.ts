@@ -1,7 +1,7 @@
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 
-const input = await getInput(3);
+const input = await getInput(2024, 3);
 
 const mulExpressionRegex = /mul\((\d{1,3}),(\d{1,3})\)/;
 const doExpressionRegex = /do\(\)/;

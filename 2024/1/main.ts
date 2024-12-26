@@ -1,7 +1,7 @@
 import { sumOf, unzip, zip } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 
-const input = await getInput(1);
+const input = await getInput(2024, 1);
 
 const [leftLocationIds, rightLocationIds] = unzip(
   input.split("\n").filter(Boolean).map((line) =>

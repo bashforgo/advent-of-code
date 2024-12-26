@@ -52,7 +52,7 @@ hwm AND bqk -> z03
 tgd XOR rvg -> z12
 tnw OR pbm -> gnj
 `
-  : await getInput(24);
+  : await getInput(2024, 24);
 
 const [wiresString, gatesString] = input.split("\n\n");
 const inputWires = wiresString

@@ -16,7 +16,7 @@ const input = DEBUG
 21037: 9 7 18 13
 292: 11 6 16 20
 `
-  : await getInput(7);
+  : await getInput(2024, 7);
 
 const lines = input.trim().split("\n");
 const equations = lines.map((line) => {

@@ -18,7 +18,7 @@ const input = DEBUG
 456A
 379A
 `
-  : await getInput(21);
+  : await getInput(2024, 21);
 
 const codes = input.trim().split("\n");
 

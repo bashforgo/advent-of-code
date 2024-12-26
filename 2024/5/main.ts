@@ -33,7 +33,7 @@ const input = DEBUG
 61,13,29
 97,13,75,29,47
 `
-  : await getInput(5);
+  : await getInput(2024, 5);
 
 const [pageOrderingRulesString, pageUpdatesString] = input.trim().split("\n\n");
 

@@ -6,7 +6,7 @@ const input = DEBUG
   ? `\
 2333133121414131402
 `
-  : await getInput(9);
+  : await getInput(2024, 9);
 
 const rawDisk = input.trim().split("").map(Number);
 

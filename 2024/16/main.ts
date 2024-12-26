@@ -56,7 +56,7 @@ const input = DEBUG
 #################
 `,
   ][1]
-  : await getInput(16);
+  : await getInput(2024, 16);
 
 const lines = input.trim().split("\n");
 

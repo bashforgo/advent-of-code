@@ -38,7 +38,7 @@ wh-qp
 tb-vc
 td-yn
 `
-  : await getInput(23);
+  : await getInput(2024, 23);
 
 const connections = input
   .trim()

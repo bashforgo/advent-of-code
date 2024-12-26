@@ -16,7 +16,7 @@ bwurrg
 brgr
 bbrgwb
 `
-  : await getInput(19);
+  : await getInput(2024, 19);
 
 const [towelPatternsString, desiredDesignsString] = input.trim().split("\n\n");
 const towelPatterns = towelPatternsString.split(", ");

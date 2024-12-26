@@ -11,7 +11,7 @@ const input = DEBUG
 3
 2024
 `
-  : await getInput(22);
+  : await getInput(2024, 22);
 
 const buyers = input.trim().split("\n").map(BigInt);
 

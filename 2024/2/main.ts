@@ -2,7 +2,7 @@ import { slidingWindows } from "@std/collections";
 import { sumOf } from "@std/collections/sum-of";
 import { getInput } from "@utilities/getInput.ts";
 
-const input = await getInput(2);
+const input = await getInput(2024, 2);
 
 const reports = input.split("\n").filter(Boolean).map((line) =>
   line.split(" ").map(Number)

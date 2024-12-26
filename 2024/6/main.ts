@@ -22,7 +22,7 @@ const input = DEBUG
 #.........
 ......#...
 `
-  : await getInput(6);
+  : await getInput(2024, 6);
 
 enum Tile {
   Empty = ".",

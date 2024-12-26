@@ -37,7 +37,7 @@ const [size, input] = DEBUG
 2,0
 `,
   ] as const
-  : [70, await getInput(18)] as const;
+  : [70, await getInput(2024, 18)] as const;
 
 const bytes = input.trim().split("\n").map((line) => {
   const [x, y] = line.split(",").map(Number);

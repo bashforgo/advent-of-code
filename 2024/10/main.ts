@@ -19,7 +19,7 @@ const input = DEBUG
 01329801
 10456732
 `
-  : await getInput(10);
+  : await getInput(2024, 10);
 
 const lines = input.trim().split("\n");
 const map: Grid<number> = lines.map((line) => line.split("").map(Number));

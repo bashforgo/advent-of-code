@@ -15,7 +15,7 @@ SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX
 `
-  : await getInput(4);
+  : await getInput(2024, 4);
 
 const matrix = input.trim().split("\n").map((line) => line.split(""));
 

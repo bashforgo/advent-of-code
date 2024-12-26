@@ -9,7 +9,7 @@ const input = DEBUG
   ? `\
 125 17
 `
-  : await getInput(11);
+  : await getInput(2024, 11);
 
 const stones = input.trim().split(" ").map(Number);
 

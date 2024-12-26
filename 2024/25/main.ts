@@ -45,7 +45,7 @@ const input = DEBUG
 #.#.#
 #####
 `
-  : await getInput(25);
+  : await getInput(2024, 25);
 
 const locksAndKeys = input.split("\n\n");
 const [locksStrings, keysStrings] = partition(

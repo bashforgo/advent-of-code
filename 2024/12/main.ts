@@ -25,7 +25,7 @@ MIIIIIJJEE
 MIIISIJEEE
 MMMISSJEEE
 `
-  : await getInput(12);
+  : await getInput(2024, 12);
 
 const lines = input.trim().split("\n");
 const map: Grid<string> = lines.map((line) => line.split(""));

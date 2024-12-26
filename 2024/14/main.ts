@@ -22,7 +22,7 @@ p=2,4 v=2,-3
 p=9,5 v=-3,-3
 `,
   ] as const
-  : [101, 103, await getInput(14)] as const;
+  : [101, 103, await getInput(2024, 14)] as const;
 
 interface Robot {
   readonly position: Point;

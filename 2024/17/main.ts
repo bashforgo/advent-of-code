@@ -19,7 +19,7 @@ Register C: 0
 Program: 0,3,5,4,3,0
 `,
   ][1]
-  : await getInput(17);
+  : await getInput(2024, 17);
 
 const [registerString, programString] = input.split("\n\n");
 const registerLines = registerString.split("\n");

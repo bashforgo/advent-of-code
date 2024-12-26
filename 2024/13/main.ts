@@ -22,7 +22,7 @@ Button A: X+69, Y+23
 Button B: X+27, Y+71
 Prize: X=18641, Y=10279
 `
-  : await getInput(13);
+  : await getInput(2024, 13);
 
 const clawMachineConfigStrings = input.trim().split("\n\n");
 const clawMachineConfigs = clawMachineConfigStrings.map((configString) => {
