@@ -1,13 +1,7 @@
 import "@std/dotenv/load";
+import { fetchAdventOfCode } from "@utilities/fetchAdventOfCode.ts";
 
 export const getInput = async (year: number, day: number): Promise<string> => {
-  const response = await fetch(
-    `https://adventofcode.com/${year}/day/${day}/input`,
-    {
-      headers: {
-        cookie: `session=${Deno.env.get("ADVENT_OF_CODE_SESSION")}`,
-      },
-    },
-  );
+  const response = await fetchAdventOfCode(`/${year}/day/${day}/input`);
   return await response.text();
 };
