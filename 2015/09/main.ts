@@ -1,4 +1,10 @@
-import { maxOf, minOf, slidingWindows, sumOf } from "@std/collections";
+import {
+  maxOf,
+  minOf,
+  permutations,
+  slidingWindows,
+  sumOf,
+} from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 import { ObjectMap } from "@utilities/ObjectMap.ts";
 
@@ -24,20 +30,6 @@ const getDistance = (from: string, to: string) =>
   distances.get({ from, to }) ?? distances.get({ from: to, to: from })!;
 
 const cities = new Set(distances.keys().flatMap(({ from, to }) => [from, to]));
-
-function* permutations<T>(elements: readonly T[]): Generator<T[]> {
-  if (elements.length === 1) {
-    yield elements as T[];
-  } else {
-    for (let i = 0; i < elements.length; i++) {
-      const [first, ...rest] = elements;
-      for (const permutation of permutations(rest)) {
-        yield [first, ...permutation];
-      }
-      elements = [...rest, first];
-    }
-  }
-}
 
 const part1 = () => {
   return minOf(
