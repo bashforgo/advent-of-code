@@ -1,6 +1,7 @@
 import { getInput } from "@utilities/getInput.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
 import { printBrailleRaw } from "@utilities/grid/printBraille.ts";
+import { productOf } from "@utilities/productOf.ts";
 
 const DEBUG = false;
 const [width, height, input] = DEBUG
@@ -93,10 +94,10 @@ const getRobotsByQuadrant = (robots: readonly Robot[]) => {
 
   const robotsByQuadrant = getRobotsByQuadrant(updatedRobots);
   console.log(
-    Array
-      .from(robotsByQuadrant.values())
-      .map((robots) => robots.length)
-      .reduce((a, b) => a * b),
+    productOf(
+      robotsByQuadrant.values(),
+      (robots) => robots.length,
+    ),
   );
 }
 
