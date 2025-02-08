@@ -1,4 +1,4 @@
-import "@std/dotenv/load";
+import "@std/dotenv";
 import { fetchAdventOfCode } from "@utilities/fetchAdventOfCode.ts";
 
 export const getInput = async (year: number, day: number): Promise<string> => {

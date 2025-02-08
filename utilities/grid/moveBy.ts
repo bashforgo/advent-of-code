@@ -1,8 +1,8 @@
 import { Direction } from "@utilities/grid/Direction.ts";
 import { Point } from "@utilities/grid/Point.ts";
 import { addPoints } from "@utilities/grid/addPoints.ts";
+import { getDelta } from "@utilities/grid/getDelta.ts";
 import { multiplyPoint } from "@utilities/grid/multiplyPoint.ts";
-import { getDelta } from "./getDelta.ts";
 
 export const moveBy = (
   point: Point,

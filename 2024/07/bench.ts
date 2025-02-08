@@ -1,4 +1,4 @@
-import { randomIntegerBetween } from "@std/random/integer-between";
+import { randomIntegerBetween } from "@std/random";
 
 const getBenchData = () => {
   const right = randomIntegerBetween(1, 99_999_999_999);

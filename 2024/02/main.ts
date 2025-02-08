@@ -1,5 +1,4 @@
-import { slidingWindows } from "@std/collections";
-import { sumOf } from "@std/collections/sum-of";
+import { slidingWindows, sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 
 const input = await getInput(2024, 2);

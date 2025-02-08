@@ -1,4 +1,4 @@
-import { sumOf } from "@std/collections/sum-of";
+import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 import { Direction } from "@utilities/grid/Direction.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
