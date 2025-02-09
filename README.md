@@ -17,3 +17,11 @@ Download and save the task as markdown for the given year and day. Outputs the p
 ```sh
 deno task getTask <year> <day>
 ```
+
+### `submit`
+
+Submit the solution for the given year and day.
+
+```sh
+deno task submit <year> <day> <level> <answer>
+```

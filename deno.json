@@ -2,7 +2,11 @@
   "tasks": {
     "getTask": {
       "description": "Get the task <year> <day>",
-      "command": "deno run -RNEW ./scripts/getTask/main.ts"
+      "command": "deno run -NERW ./scripts/getTask/main.ts"
+    },
+    "submit": {
+      "description": "Submit the task <year> <day> <level> <answer>",
+      "command": "deno run -NER ./scripts/submit/main.ts"
     }
   },
   "imports": {

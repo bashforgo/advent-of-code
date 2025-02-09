@@ -1,21 +1,26 @@
 import { DOMParser } from "@b-fuze/deno-dom";
-import { ensureDir } from "@std/fs";
-import { dirname } from "@std/path";
 import { fetchAdventOfCode } from "@utilities/fetchAdventOfCode.ts";
 import { TurndownService } from "@utilities/turndown.ts";
 
-const [year, day] = Deno.args;
-if (year == null || day == null) {
+const [year, day, level, answer] = Deno.args;
+if (year == null || day == null || level == null || answer == null) {
   const message = `\
 Usage:
-  $ getTask <year> <day>
+  $ submit <year> <day> <level> <answer>
 `;
   throw new Error(message);
 }
 
 const turndownService = new TurndownService({ codeBlockStyle: "fenced" });
 
-const taskResponse = await fetchAdventOfCode(`/${year}/day/${day}`);
+const taskResponse = await fetchAdventOfCode(
+  `/${year}/day/${day}/answer`,
+  (r) => {
+    r.method = "POST";
+    r.headers.set("Content-Type", "application/x-www-form-urlencoded");
+    r.body = new URLSearchParams({ level, answer });
+  },
+);
 const taskHtml = await taskResponse.text();
 
 const taskDocument = new DOMParser().parseFromString(taskHtml, "text/html");
@@ -26,9 +31,4 @@ const articlesHtml = Array.from(articles)
 
 const taskMarkdown = turndownService.turndown(articlesHtml);
 
-const dayWithLeadingZero = day.padStart(2, "0");
-const path = `./${year}/${dayWithLeadingZero}/task.md`;
-await ensureDir(dirname(path));
-await Deno.writeTextFile(path, taskMarkdown);
-
-console.log(path);
+console.log(taskMarkdown);
