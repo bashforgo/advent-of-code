@@ -22,6 +22,11 @@ export const getInput = async (year: number, day: number): Promise<string> => {
 
 const fetchInput = async (year: number, day: number) => {
   const response = await fetchAdventOfCode(`/${year}/day/${day}/input`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch input: ${response.status}`, {
+      cause: await response.text(),
+    });
+  }
   return await response.text();
 };
 
