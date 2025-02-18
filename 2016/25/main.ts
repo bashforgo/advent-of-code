@@ -1,18 +1,8 @@
 import { unreachable } from "@std/assert/unreachable";
 import { getInput } from "@utilities/getInput.ts";
+import { range } from "@utilities/range.ts";
 
-const DEBUG = false;
-const input = DEBUG
-  ? `\
-cpy 2 a
-tgl a
-tgl a
-tgl a
-cpy 1 a
-dec a
-dec a
-`
-  : await getInput(2016, 23);
+const input = await getInput(2016, 25);
 
 const lines = input.trim().split("\n");
 
@@ -21,29 +11,21 @@ enum InstructionType {
   inc = "inc",
   dec = "dec",
   jnz = "jnz",
-  tgl = "tgl",
+  out = "out",
 }
 
 type Instruction =
   | { type: InstructionType.cpy; x: string | number; y: string }
-  | {
-    type: InstructionType.cpy;
-    x: string | number;
-    y: number;
-    isInvalid: true;
-  }
   | { type: InstructionType.inc; x: string }
-  | { type: InstructionType.inc; x: number; isInvalid: true }
   | { type: InstructionType.dec; x: string }
-  | { type: InstructionType.dec; x: number; isInvalid: true }
   | { type: InstructionType.jnz; x: string | number; y: string | number }
-  | { type: InstructionType.tgl; x: string | number };
+  | { type: InstructionType.out; x: string | number };
 
-const initialInstructions = lines.map((line): Instruction => {
+const instructions = lines.map((line): Instruction => {
   const match = line.match(/(?<type>cpy) (?<x>[a-d]|-?\d+) (?<y>[a-d])/) ??
     line.match(/(?<type>inc|dec) (?<x>[a-d])/) ??
     line.match(/(?<type>jnz) (?<x>[a-d]|-?\d+) (?<y>[a-d]|-?\d+)/) ??
-    line.match(/(?<type>tgl) (?<x>[a-d]|-?\d+)/) ??
+    line.match(/(?<type>out) (?<x>[a-d]|-?\d+)/) ??
     unreachable();
 
   const { type, x, y } = match.groups!;
@@ -65,11 +47,8 @@ const initialInstructions = lines.map((line): Instruction => {
         x: stringOrNumber(x),
         y: stringOrNumber(y),
       };
-    case InstructionType.tgl:
-      return {
-        type: InstructionType.tgl,
-        x: stringOrNumber(x),
-      };
+    case InstructionType.out:
+      return { type: InstructionType.out, x: stringOrNumber(x) };
   }
 
   unreachable();
@@ -79,11 +58,6 @@ const initialInstructions = lines.map((line): Instruction => {
     return Number.isNaN(number) ? x : number;
   }
 });
-
-const isInvalidInstruction = (
-  instruction: Instruction,
-): instruction is Instruction & { isInvalid: true } =>
-  "isInvalid" in instruction;
 
 const matchesPlusEqualPattern = (
   A: Instruction,
@@ -96,13 +70,9 @@ const matchesPlusEqualPattern = (
   const isJumpBack2 = C.y === -2;
   if (!isJumpBack2) return null;
 
-  if (isInvalidInstruction(A)) return null;
-
   const isIncFirst = A.type === InstructionType.inc;
   const isDecFirst = A.type === InstructionType.dec;
   if (!isIncFirst && !isDecFirst) return null;
-
-  if (isInvalidInstruction(B)) return null;
 
   const isOpposite =
     B.type === (isIncFirst ? InstructionType.dec : InstructionType.inc);
@@ -113,22 +83,17 @@ const matchesPlusEqualPattern = (
     : { registerToInc: B.x, registerToZero: A.x };
 };
 
-const interpret = (
+function* interpret(
   instructions: Instruction[],
   initialValues?: Record<string, number>,
-) => {
-  const _registers: Record<string, number> = {
+) {
+  const registers: Record<string, number> = {
     a: 0,
     b: 0,
     c: 0,
     d: 0,
     ...initialValues,
   };
-  const registers = new Proxy(_registers, {
-    set: (target, prop, value) => {
-      return Reflect.set(target, prop, value);
-    },
-  });
   let pointer = 0;
 
   const getRegisterOrValue = (x: string | number) =>
@@ -144,8 +109,8 @@ const interpret = (
       const endsWithJump = F.type === InstructionType.jnz;
       if (!endsWithJump) return;
 
-      const isJumpBack5 = F.y === -5;
-      if (!isJumpBack5) return;
+      const isJumpBack2 = F.y === -5;
+      if (!isJumpBack2) return;
 
       const pattern = matchesPlusEqualPattern(B, C, D);
       if (pattern == null) return;
@@ -185,11 +150,6 @@ const interpret = (
 
     const instruction = instructions[pointer];
 
-    if (isInvalidInstruction(instruction)) {
-      pointer++;
-      continue;
-    }
-
     switch (instruction.type) {
       case InstructionType.cpy:
         registers[instruction.y] = getRegisterOrValue(instruction.x);
@@ -208,108 +168,27 @@ const interpret = (
           ? getRegisterOrValue(instruction.y)
           : 1;
         break;
-      case InstructionType.tgl: {
-        const target = pointer + getRegisterOrValue(instruction.x);
-        if (target < 0 || target >= instructions.length) {
-          pointer++;
-          break;
-        }
-
-        const targetInstruction = instructions[target];
-        switch (targetInstruction.type) {
-          case InstructionType.cpy:
-            instructions[target] = {
-              type: InstructionType.jnz,
-              x: targetInstruction.x,
-              y: targetInstruction.y,
-            };
-            break;
-          case InstructionType.inc:
-            instructions[target] = typeof targetInstruction.x === "string"
-              ? {
-                type: InstructionType.dec,
-                x: targetInstruction.x,
-              }
-              : {
-                type: InstructionType.dec,
-                x: targetInstruction.x,
-                isInvalid: true,
-              };
-            break;
-          case InstructionType.dec:
-            instructions[target] = typeof targetInstruction.x === "string"
-              ? {
-                type: InstructionType.inc,
-                x: targetInstruction.x,
-              }
-              : {
-                type: InstructionType.inc,
-                x: targetInstruction.x,
-                isInvalid: true,
-              };
-            break;
-          case InstructionType.jnz:
-            instructions[target] = typeof targetInstruction.y === "string"
-              ? {
-                type: InstructionType.cpy,
-                x: targetInstruction.x,
-                y: targetInstruction.y,
-              }
-              : {
-                type: InstructionType.cpy,
-                x: targetInstruction.x,
-                y: targetInstruction.y,
-                isInvalid: true,
-              };
-            break;
-          case InstructionType.tgl:
-            instructions[target] = typeof targetInstruction.x === "string"
-              ? {
-                type: InstructionType.inc,
-                x: targetInstruction.x,
-              }
-              : {
-                type: InstructionType.inc,
-                x: targetInstruction.x,
-                isInvalid: true,
-              };
-            break;
-        }
-
+      case InstructionType.out:
+        yield getRegisterOrValue(instruction.x);
         pointer++;
         break;
-      }
     }
   }
 
   return registers;
-};
-
-// deno-lint-ignore no-unused-vars
-const stringifyInstructions = (instructions: Instruction[]) =>
-  instructions.map((instruction) => {
-    switch (instruction.type) {
-      case InstructionType.cpy:
-        return `cpy ${instruction.x} ${instruction.y}`;
-      case InstructionType.inc:
-        return `inc ${instruction.x}`;
-      case InstructionType.dec:
-        return `dec ${instruction.x}`;
-      case InstructionType.jnz:
-        return `jnz ${instruction.x} ${instruction.y}`;
-      case InstructionType.tgl:
-        return `tgl ${instruction.x}`;
-    }
-  }).join("\n");
+}
 
 const part1 = () => {
-  const registers = interpret([...initialInstructions], { a: 7 });
-  return registers.a;
+  outer: for (const i of range(1, Infinity)) {
+    let expected = 0;
+
+    for (const output of interpret(instructions, { a: i }).take(100)) {
+      if (output !== expected) continue outer;
+
+      expected = 1 - expected;
+    }
+
+    return i;
+  }
 };
 console.log(part1());
-
-const part2 = () => {
-  const registers = interpret([...initialInstructions], { a: 12 });
-  return registers.a;
-};
-console.log(part2());
