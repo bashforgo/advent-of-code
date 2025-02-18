@@ -25,11 +25,37 @@ export class ObjectSet<T> {
     return this.#map.size;
   }
 
+  isEmpty() {
+    return this.size === 0;
+  }
+
   *values() {
     yield* this.#map.values();
   }
 
-  [Symbol.iterator] = this.#map.values.bind(this.#map);
+  *[Symbol.iterator]() {
+    yield* this.values();
+  }
+
+  with(value: T) {
+    if (this.has(value)) return this;
+
+    const copy = ObjectSet.from(this);
+    copy.add(value);
+    return copy;
+  }
+
+  without(value: T) {
+    if (!this.has(value)) return this;
+
+    const copy = ObjectSet.from(this);
+    copy.delete(value);
+    return copy;
+  }
+
+  toJSON() {
+    return Array.from(this.values());
+  }
 
   #getKey(value: T) {
     return JSON.stringify(value);
