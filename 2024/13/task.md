@@ -39,7 +39,7 @@ For now, consider just the first claw machine in the list:
 *   Pushing the `B` button would move the claw `22` units along the `X` axis and `67` units along the `Y` axis.
 *   The prize is located at `X=8400`, `Y=5400`; this means that from the claw's initial position, it would need to move exactly `8400` units along the `X` axis and exactly `5400` units along the `Y` axis to be perfectly aligned with the prize in this machine.
 
-The cheapest way to win the prize is by pushing the `A` button `80` times and the `B` button `40` times. This would line up the claw along the `X` axis (because `80*94 + 40*22 = 8400`) and along the `Y` axis (because `80*34 + 40*67 = 5400`). Doing this would cost `80*3` tokens for the `A` presses and `40*1` for the `B` presses, a total of `_280_` tokens.
+The cheapest way to win the prize is by pushing the `A` button `80` times and the `B` button `40` times. This would line up the claw along the `X` axis (because `80*94 + 40*22 = 8400`) and along the `Y` axis (because `80*34 + 40*67 = 5400`). Doing this would cost `80*3` tokens for the <span title="Half A presses are not allowed."><code>A</code> presses</span> and `40*1` for the `B` presses, a total of `_280_` tokens.
 
 For the second and fourth claw machines, there is no combination of A and B presses that will ever win a prize.
 

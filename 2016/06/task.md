@@ -35,7 +35,7 @@ Given the recording in your puzzle input, _what is the error-corrected version_ 
 
 Of course, that _would_ be the message - if you hadn't agreed to use a _modified repetition code_ instead.
 
-In this modified code, the sender instead transmits what looks like random data, but for each character, the character they actually want to send is _slightly less likely_ than the others. Even after signal-jamming noise, you can look at the letter distributions in each column and choose the _least common_ letter to reconstruct the original message.
+In this <span title="*Please* don't try this at home.">modified code</span>, the sender instead transmits what looks like random data, but for each character, the character they actually want to send is _slightly less likely_ than the others. Even after signal-jamming noise, you can look at the letter distributions in each column and choose the _least common_ letter to reconstruct the original message.
 
 In the above example, the least common character in the first column is `a`; in the second, `d`, and so on. Repeating this process for the remaining characters produces the original message, `advent`.
 

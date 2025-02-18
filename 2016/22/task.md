@@ -6,7 +6,7 @@ You gain access to a massive storage cluster arranged in a grid; each storage no
 You can directly access data _only_ on node `/dev/grid/node-x0-y0`, but you can perform some limited actions on the other nodes:
 
 *   You can get the disk usage of all nodes (via [`df`](https://en.wikipedia.org/wiki/Df_\(Unix\)#Example)). The result of doing this is in your puzzle input.
-*   You can instruct a node to _move_ (not copy) _all_ of its data to an adjacent node (if the destination node has enough space to receive the data). The sending node is left empty after this operation.
+*   You can instruct a node to <span title="You suspect someone misunderstood the x86 MOV instruction."><em>move</em></span> (not copy) _all_ of its data to an adjacent node (if the destination node has enough space to receive the data). The sending node is left empty after this operation.
 
 Nodes are named by their position: the node named `node-x10-y10` is adjacent to nodes `node-x9-y10`, `node-x11-y10`, `node-x10-y9`, and `node-x10-y11`.
 

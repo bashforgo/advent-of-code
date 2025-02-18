@@ -27,7 +27,7 @@ For example, suppose the passcode is `hijkl`. Initially, you have taken no steps
 
 Next, having gone only one step (down, or `D`), you find the hash of `hijkl_D_`. This produces `f2bc`, which indicates that you can go back up, left (but that's a wall), or right. Going right means hashing `hijkl_DR_` to get `5745` - all doors closed and locked. However, going _up_ instead is worthwhile: even though it returns you to the room you started in, your path would then be `DU`, opening a _different set of doors_.
 
-After going `DU` (and then hashing `hijkl_DU_` to get `528e`), only the right door is open; after going `DUR`, all doors lock. (Fortunately, your actual passcode is not `hijkl`).
+After going `DU` (and then hashing `hijkl_DU_` to get `528e`), only the right door is open; after going `DUR`, all doors lock. (Fortunately, your actual passcode is <span title="It took four days to rescue the engineer that tried this.">not <code>hijkl</code></span>).
 
 Passcodes actually used by Easter Bunny Vault Security do allow access to the vault if you know the right path. For example:
 

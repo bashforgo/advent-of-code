@@ -5,7 +5,7 @@ In years past, the holiday feast with your family hasn't gone so well. Not every
 
 You start by writing up a list of everyone invited and the amount their happiness would increase or decrease if they were to find themselves sitting next to each other person. You have a circular table that will be just big enough to fit everyone comfortably, and so each person will have exactly two neighbors.
 
-For example, suppose you have only four attendees planned, and you calculate their potential happiness as follows:
+For example, suppose you have only four attendees planned, and you <span title="Finding a method to calculate happiness units is left as an exercise for the reader.">calculate</span> their potential happiness as follows:
 
 ```
 Alice would gain 54 happiness units by sitting next to Bob.

@@ -31,7 +31,7 @@ The `_bxl_` instruction (opcode `_1_`) calculates the [bitwise XOR](https://en.w
 
 The `_bst_` instruction (opcode `_2_`) calculates the value of its _combo_ operand [modulo](https://en.wikipedia.org/wiki/Modulo) 8 (thereby keeping only its lowest 3 bits), then writes that value to the `B` register.
 
-The `_jnz_` instruction (opcode `_3_`) does _nothing_ if the `A` register is `0`. However, if the `A` register is _not zero_, it _jumps_ by setting the instruction pointer to the value of its _literal_ operand; if this instruction jumps, the instruction pointer is _not_ increased by `2` after this instruction.
+The `_jnz_` instruction (opcode `_3_`) does _nothing_ if the `A` register is `0`. However, if the `A` register is _not zero_, it <span title="The instruction does this using a little trampoline."><em>jumps</em></span> by setting the instruction pointer to the value of its _literal_ operand; if this instruction jumps, the instruction pointer is _not_ increased by `2` after this instruction.
 
 The `_bxc_` instruction (opcode `_4_`) calculates the _bitwise XOR_ of register `B` and register `C`, then stores the result in register `B`. (For legacy reasons, this instruction reads an operand but _ignores_ it.)
 

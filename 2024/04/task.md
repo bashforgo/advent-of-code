@@ -52,7 +52,7 @@ Take a look at the little Elf's word search. _How many times does `XMAS` appear?
 
 The Elf looks quizzically at you. Did you misunderstand the assignment?
 
-Looking for the instructions, you flip over the word search to find that this isn't actually an `_XMAS_` puzzle; it's an `_X-MAS_` puzzle in which you're supposed to find two `MAS` in the shape of an `X`. One way to achieve that is like this:
+Looking for the instructions, you flip over the word search to find that this isn't actually an `_XMAS_` puzzle; it's an <span title="This part originally involved searching for something else, but this joke was too dumb to pass up."><code><em>X-MAS</em></code></span> puzzle in which you're supposed to find two `MAS` in the shape of an `X`. One way to achieve that is like this:
 
 ```
 M.S

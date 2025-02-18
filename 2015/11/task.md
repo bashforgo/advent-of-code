@@ -26,4 +26,4 @@ Given Santa's current password (your puzzle input), what should his _next passwo
 \--- Part Two ---
 -----------------
 
-Santa's password expired again. What's the next one?
+Santa's password <span title="The corporate policy says your password expires after 12 seconds.  For security.">expired again</span>. What's the next one?

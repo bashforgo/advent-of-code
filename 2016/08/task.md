@@ -5,7 +5,7 @@ You come across a door implementing what you can only assume is an implementatio
 
 To get past the door, you first swipe a keycard (no problem; there was one on a nearby desk). Then, it displays a code on a [little screen](https://www.google.com/search?q=tiny+lcd&tbm=isch), and you type that code on a keypad. Then, presumably, the door unlocks.
 
-Unfortunately, the screen has been smashed. After a few minutes, you've taken everything apart and figured out how it works. Now you just have to work out what the screen _would_ have displayed.
+Unfortunately, the screen has been <span title="BUT BY WHOM?!">smashed</span>. After a few minutes, you've taken everything apart and figured out how it works. Now you just have to work out what the screen _would_ have displayed.
 
 The magnetic strip on the card you swiped encodes a series of instructions for the screen; these instructions are your puzzle input. The screen is _`50` pixels wide and `6` pixels tall_, all of which start _off_, and is capable of three somewhat peculiar operations:
 

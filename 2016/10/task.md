@@ -32,4 +32,4 @@ Based on your instructions, _what is the number of the bot_ that is responsible 
 \--- Part Two ---
 -----------------
 
-What do you get if you _multiply together the values_ of one chip in each of outputs `0`, `1`, and `2`?
+<span title="What do you get if you multiply six by nine?">What do you get</span> if you _multiply together the values_ of one chip in each of outputs `0`, `1`, and `2`?

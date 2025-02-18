@@ -12,7 +12,7 @@ For example:
 *   `{"a":[-1,1]}` and `[-1,{"a":1}]` both have a sum of `0`.
 *   `[]` and `{}` both have a sum of `0`.
 
-You will not encounter any strings containing numbers.
+You will not <span title="Nor are you likely to be eaten by a grue... during *this* puzzle, anyway.">encounter</span> any strings containing numbers.
 
 What is the _sum of all numbers_ in the document?
 

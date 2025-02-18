@@ -5,7 +5,7 @@ You've finally met your match; the doors that provide access to the roof are loc
 
 The robot that cleans the air ducts, however, _can_.
 
-It's not a very fast little robot, but you reconfigure it to be able to interface with some of the exposed wires that have been routed through the [HVAC](https://en.wikipedia.org/wiki/HVAC) system. If you can direct it to each of those locations, you should be able to bypass the security controls.
+It's not a very fast <span title="The Brave Little Air Duct Cleaning Robot That Could">little robot</span>, but you reconfigure it to be able to interface with some of the exposed wires that have been routed through the [HVAC](https://en.wikipedia.org/wiki/HVAC) system. If you can direct it to each of those locations, you should be able to bypass the security controls.
 
 You extract the duct layout for this area from some blueprints you acquired and create a map with the relevant locations marked (your puzzle input). `0` is your current location, from which the cleaning robot embarks; the other numbers are (in _no particular order_) the locations the robot needs to visit at least once each. Walls are marked as `#`, and open passages are marked as `.`. Numbers behave like open passages.
 

@@ -167,7 +167,7 @@ z04: 1
 
 Unfortunately, your actual system needs to add numbers with many more bits and therefore has many more wires.
 
-Based on forensic analysis of scuff marks and scratches on the device, you can tell that there are exactly _four_ pairs of gates whose output wires have been _swapped_. (A gate can only be in at most one such pair; no gate's output was swapped multiple times.)
+Based on <span title="ENHANCE">forensic analysis</span> of scuff marks and scratches on the device, you can tell that there are exactly _four_ pairs of gates whose output wires have been _swapped_. (A gate can only be in at most one such pair; no gate's output was swapped multiple times.)
 
 For example, the system below is supposed to find the bitwise `AND` of the six-bit number on `x00` through `x05` and the six-bit number on `y00` through `y05` and then write the result as a six-bit number on `z00` through `z05`:
 

@@ -3,7 +3,7 @@
 
 You find yourselves on the [roof](/2016/day/25) of a top-secret Easter Bunny installation.
 
-While The Historians do their thing, you take a look at the familiar _huge antenna_. Much to your surprise, it seems to have been reconfigured to emit a signal that makes people 0.1% more likely to buy Easter Bunny brand Imitation Mediocre Chocolate as a Christmas gift! Unthinkable!
+While The Historians do their thing, you take a look at the familiar _huge antenna_. Much to your surprise, it seems to have been reconfigured to emit a signal that makes people 0.1% more likely to buy Easter Bunny brand <span title="They could have imitated delicious chocolate, but the mediocre chocolate is WAY easier to imitate.">Imitation Mediocre</span> Chocolate as a Christmas gift! Unthinkable!
 
 Scanning across the city, you find that there are actually many such antennas. Each antenna is tuned to a specific _frequency_ indicated by a single lowercase letter, uppercase letter, or digit. You create a map (your puzzle input) of these antennas. For example:
 

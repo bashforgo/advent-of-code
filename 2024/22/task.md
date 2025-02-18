@@ -68,7 +68,7 @@ For each buyer, simulate the creation of 2000 new secret numbers. _What is the s
 \--- Part Two ---
 -----------------
 
-Of course, the secret numbers aren't the prices each buyer is offering! That would be ridiculous. Instead, the _prices_ the buyer offers are just the _ones digit_ of each of their secret numbers.
+Of course, the secret numbers aren't the prices each buyer is offering! That would be <span title="Some might say it would be... bananas.">ridiculous</span>. Instead, the _prices_ the buyer offers are just the _ones digit_ of each of their secret numbers.
 
 So, if a buyer starts with a secret number of `123`, that buyer's first ten _prices_ would be:
 

@@ -93,6 +93,6 @@ de-ta
 ka-de
 ```
 
-The LAN party posters say that the _password_ to get into the LAN party is the name of every computer at the LAN party, sorted alphabetically, then joined together with commas. (The people running the LAN party are clearly a bunch of nerds.) In this example, the password would be `_co,de,ka,ta_`.
+The LAN party posters say that the _password_ to get into the LAN party is the name of every computer at the LAN party, sorted alphabetically, then joined together with commas. (The people running the LAN party are clearly a bunch of <span title="You caught me. I'm a giant nerd.">nerds</span>.) In this example, the password would be `_co,de,ka,ta_`.
 
 _What is the password to get into the LAN party?_

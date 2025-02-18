@@ -5,7 +5,7 @@ The ancient civilization on [Pluto](/2019/day/20) was known for its ability to m
 
 At first glance, they seem like normal stones: they're arranged in a perfectly _straight line_, and each stone has a _number_ engraved on it.
 
-The strange part is that every time you blink, the stones _change_.
+The strange part is that every time you <span title="No, they're not statues. Why do you ask?">blink</span>, the stones _change_.
 
 Sometimes, the number engraved on a stone changes. Other times, a stone might _split in two_, causing all the other stones to shift over a bit to make room in their perfectly straight line.
 

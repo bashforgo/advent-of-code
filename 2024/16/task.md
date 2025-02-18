@@ -1,7 +1,7 @@
 \--- Day 16: Reindeer Maze ---
 ------------------------------
 
-It's time again for the [Reindeer Olympics](/2015/day/14)! This year, the big event is the _Reindeer Maze_, where the Reindeer compete for the _lowest score_.
+It's time again for the [Reindeer Olympics](/2015/day/14)! This year, the big event is the _Reindeer Maze_, where the Reindeer compete for the _<span title="I would say it's like Reindeer Golf, but knowing Reindeer, it's almost certainly nothing like Reindeer Golf.">lowest score</span>_.
 
 You and The Historians arrive to search for the Chief right as the event is about to start. It wouldn't hurt to watch a little, right?
 

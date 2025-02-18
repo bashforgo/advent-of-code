@@ -1,7 +1,7 @@
 \--- Day 5: Print Queue ---
 ---------------------------
 
-Satisfied with their search on Ceres, the squadron of scholars suggests subsequently scanning the stationery stacks of sub-basement 17.
+Satisfied with their search on Ceres, the squadron of scholars suggests subsequently scanning the <span title="Specifically, the surely-stationary stationery stacks.">stationery</span> stacks of sub-basement 17.
 
 The North Pole printing department is busier than ever this close to Christmas, and while The Historians continue their search of this historically significant facility, an Elf operating a [very familiar printer](/2017/day/1) beckons you over.
 

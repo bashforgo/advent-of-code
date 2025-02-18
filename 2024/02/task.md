@@ -41,7 +41,7 @@ Analyze the unusual data from the engineers. _How many reports are safe?_
 \--- Part Two ---
 -----------------
 
-The engineers are surprised by the low number of safe reports until they realize they forgot to tell you about the Problem Dampener.
+The engineers are surprised by the low number of safe reports until they realize they forgot to tell you about the <span title="I need to get one of these!">Problem Dampener</span>.
 
 The Problem Dampener is a reactor-mounted module that lets the reactor safety systems _tolerate a single bad level_ in what would otherwise be a safe report. It's like the bad level never happened!
 

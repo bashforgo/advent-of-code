@@ -60,7 +60,7 @@ The final step of this file-compacting process is to update the _filesystem chec
 
 Continuing the first example, the first few blocks' position multiplied by its file ID number are `0 * 0 = 0`, `1 * 0 = 0`, `2 * 9 = 18`, `3 * 9 = 27`, `4 * 8 = 32`, and so on. In this example, the checksum is the sum of these, `_1928_`.
 
-Compact the amphipod's hard drive using the process he requested. _What is the resulting filesystem checksum?_ (Be careful copy/pasting the input for this puzzle; it is a single, very long line.)
+<span title="Bonus points if you make a cool animation of this process.">Compact the amphipod's hard drive</span> using the process he requested. _What is the resulting filesystem checksum?_ (Be careful copy/pasting the input for this puzzle; it is a single, very long line.)
 
 \--- Part Two ---
 -----------------

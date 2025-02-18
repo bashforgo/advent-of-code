@@ -18,7 +18,7 @@ For example:
 
 The next year, to speed up the process, Santa creates a robot version of himself, _Robo-Santa_, to deliver presents with him.
 
-Santa and Robo-Santa start at the same location (delivering two presents to the same starting house), then take turns moving based on instructions from the elf, who is eggnoggedly reading from the same script as the previous year.
+Santa and Robo-Santa start at the same location (delivering two presents to the same starting house), then take turns moving based on instructions from the elf, who is <span title="This absolutely real word was invented by someone flipping eggnoggedly through a dictionary.">eggnoggedly</span> reading from the same script as the previous year.
 
 This year, how many houses receive _at least one present_?
 

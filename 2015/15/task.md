@@ -13,7 +13,7 @@ Your recipe leaves room for exactly `100` teaspoons of ingredients. You make a l
 
 You can only measure ingredients in whole-teaspoon amounts accurately, and you have to be accurate so you can reproduce your results in the future. The _total score_ of a cookie can be found by adding up each of the properties (negative totals become `0`) and then multiplying together everything except calories.
 
-For instance, suppose you have these two ingredients:
+For instance, suppose you have <span title="* I know what your preference is, but...">these two ingredients</span>:
 
 ```
 Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8

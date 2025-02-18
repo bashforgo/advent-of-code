@@ -47,7 +47,7 @@ _What value_ should be sent to the safe?
 \--- Part Two ---
 -----------------
 
-The safe doesn't open, but it _does_ make several angry noises to express its frustration.
+The safe doesn't open, but it _does_ make several <span title="SUCH INCORRECT! VERY LOCK! WOW!">angry noises</span> to express its frustration.
 
 You're quite sure your logic is working correctly, so the only other thing is... you check the painting again. As it turns out, colored eggs are still eggs. Now you count `12`.
 

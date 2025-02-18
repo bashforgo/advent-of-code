@@ -1,7 +1,7 @@
 \--- Day 23: Opening the Turing Lock ---
 ----------------------------------------
 
-Little Jane Marie just got her very first computer for Christmas from some unknown benefactor. It comes with instructions and an example program, but the computer itself seems to be malfunctioning. She's curious what the program does, and would like you to help her run it.
+Little Jane Marie just got her very first computer for Christmas from some <span title="Definitely not Wintermute.">unknown benefactor</span>. It comes with instructions and an example program, but the computer itself seems to be malfunctioning. She's curious what the program does, and would like you to help her run it.
 
 The manual explains that the computer supports two [registers](https://en.wikipedia.org/wiki/Processor_register) and six [instructions](https://en.wikipedia.org/wiki/Instruction_set) (truly, it goes on to remind the reader, a state-of-the-art technology). The registers are named `a` and `b`, can hold any [non-negative integer](https://en.wikipedia.org/wiki/Natural_number), and begin with a value of `0`. The instructions are as follows:
 
@@ -26,3 +26,8 @@ inc a
 ```
 
 What is _the value in register `b`_ when the program in your puzzle input is finished executing?
+
+\--- Part Two ---
+-----------------
+
+The unknown benefactor is _very_ thankful for releasi-- er, helping little Jane Marie with her computer. Definitely not to distract you, what is the value in register `b` after the program is finished executing if register `a` starts as `1` instead?

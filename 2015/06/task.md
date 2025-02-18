@@ -1,7 +1,7 @@
 \--- Day 6: Probably a Fire Hazard ---
 --------------------------------------
 
-Because your neighbors keep defeating you in the holiday house decorating contest year after year, you've decided to deploy one million lights in a 1000x1000 grid.
+Because your neighbors keep defeating you in the holiday house decorating contest year after year, you've decided to deploy one million lights in a <span title="Hey, be glad I'm not asking for the resistance between two points!">1000x1000 grid</span>.
 
 Furthermore, because you've been especially nice this year, Santa has mailed you instructions on how to display the ideal lighting configuration.
 

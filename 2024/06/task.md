@@ -115,7 +115,7 @@ While The Historians begin working around the guard's patrol route, you borrow t
 
 Returning after what seems like only a few seconds to The Historians, they explain that the guard's patrol area is simply too large for them to safely search the lab without getting caught.
 
-Fortunately, they are _pretty sure_ that adding a single new obstruction _won't_ cause a time paradox. They'd like to place the new obstruction in such a way that the guard will get _stuck in a loop_, making the rest of the lab safe to search.
+Fortunately, they are _pretty sure_ that adding a single new obstruction _won't_ cause a time paradox. They'd like to place the new obstruction in such a way that the guard will get <span title="This vulnerability was later fixed by having the guard always turn left instead."><em>stuck in a loop</em></span>, making the rest of the lab safe to search.
 
 To have the lowest chance of creating a time paradox, The Historians would like to know _all_ of the possible positions for such an obstruction. The new obstruction can't be placed at the guard's starting position - the guard is there right now and would notice.
 

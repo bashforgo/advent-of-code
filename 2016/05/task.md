@@ -20,7 +20,7 @@ Given the actual Door ID, _what is the password_?
 \--- Part Two ---
 -----------------
 
-As the door slides open, you are presented with a second door that uses a slightly more inspired security mechanism. Clearly unimpressed by the last version (in what movie is the password decrypted _in order_?!), the Easter Bunny engineers have worked out [a better solution](https://www.youtube.com/watch?v=NHWjlCaIrQo&t=25).
+As the door slides open, you are presented with a second door that uses a slightly more <span title="This one says 'WOPR' in block letters.">inspired</span> security mechanism. Clearly unimpressed by the last version (in what movie is the password decrypted _in order_?!), the Easter Bunny engineers have worked out [a better solution](https://www.youtube.com/watch?v=NHWjlCaIrQo&t=25).
 
 Instead of simply filling in the password from left to right, the hash now also indicates the _position_ within the password to fill. You still look for hashes that begin with five zeroes; however, now, the _sixth_ character represents the _position_ (`0`\-`7`), and the _seventh_ character is the character to put in that position.
 

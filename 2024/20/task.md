@@ -5,7 +5,7 @@ The Historians are quite pixelated again. This time, a massive, black building l
 
 While The Historians get to work, a nearby program sees that you're idle and challenges you to a _race_. Apparently, you've arrived just in time for the frequently-held _race condition_ festival!
 
-The race takes place on a particularly long and twisting code path; programs compete to see who can finish in the _fewest picoseconds_. The winner even gets their very own [mutex](https://en.wikipedia.org/wiki/Lock_\(computer_science\))!
+The race takes place on a particularly long and twisting code path; programs compete to see who can finish in the _fewest picoseconds_. The <span title="If we give away enough mutexes, maybe someone will use one of them to fix the race condition!">winner</span> even gets their very own [mutex](https://en.wikipedia.org/wiki/Lock_\(computer_science\))!
 
 They hand you a _map of the racetrack_ (your puzzle input). For example:
 

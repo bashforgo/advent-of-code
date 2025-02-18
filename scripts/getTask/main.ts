@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 import { DOMParser } from "@b-fuze/deno-dom";
 import { ensureDir } from "@std/fs";
 import { dirname } from "@std/path";
@@ -14,6 +16,7 @@ Usage:
 }
 
 const turndownService = new TurndownService({ codeBlockStyle: "fenced" });
+turndownService.keep((node) => node.hasAttribute("title"));
 
 const taskResponse = await fetchAdventOfCode(`/${year}/day/${day}`);
 const taskHtml = await taskResponse.text();

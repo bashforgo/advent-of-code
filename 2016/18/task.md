@@ -60,4 +60,4 @@ Starting with the map in your puzzle input, in a total of `40` rows (including t
 \--- Part Two ---
 -----------------
 
-_How many safe tiles_ are there in a total of `400000` rows?
+_How many safe tiles_ are there in a total of <span title="You feel a wrenching sensation."><code>400000</code> rows</span>?

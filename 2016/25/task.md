@@ -9,7 +9,7 @@ However, maybe the _huge antenna_ up here can offer a solution. After all, the s
 
 You connect the stars you have to your prototype computer, connect that to the antenna, and begin the transmission.
 
-Nothing happens.
+<span title="Then again, if something ever works on the first try, you should be *very* suspicious.">Nothing happens.</span>
 
 You call the service number printed on the side of the antenna and quickly explain the situation. "I'm not sure what kind of equipment you have connected over there," he says, "but you need a clock signal." You try to explain that this is a signal for a clock.
 

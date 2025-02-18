@@ -5,7 +5,7 @@ You come upon a column of four floors that have been entirely sealed off from th
 
 According to the project status board, this facility is currently being used to experiment with [Radioisotope Thermoelectric Generators](https://en.wikipedia.org/wiki/Radioisotope_thermoelectric_generator) (RTGs, or simply "generators") that are designed to be paired with specially-constructed microchips. Basically, an RTG is a highly radioactive rock that generates electricity through heat.
 
-The experimental RTGs have poor radiation containment, so they're dangerously radioactive. The chips are prototypes and don't have normal radiation shielding, but they do have the ability to _generate an electromagnetic radiation shield when powered_. Unfortunately, they can _only_ be powered by their corresponding RTG. An RTG powering a microchip is still dangerous to other microchips.
+The <span title="The previous version, model number PB-NUK, used Blutonium.">experimental RTGs</span> have poor radiation containment, so they're dangerously radioactive. The chips are prototypes and don't have normal radiation shielding, but they do have the ability to _generate an electromagnetic radiation shield when powered_. Unfortunately, they can _only_ be powered by their corresponding RTG. An RTG powering a microchip is still dangerous to other microchips.
 
 In other words, if a chip is ever left in the same area as another RTG, and it's not connected to its own RTG, the chip will be _fried_. Therefore, it is assumed that you will follow procedure and keep chips connected to their corresponding RTG when they're in the same room, and away from other RTGs otherwise.
 

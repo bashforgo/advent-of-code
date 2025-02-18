@@ -108,7 +108,7 @@ Find the fewest number of button presses you'll need to perform in order to caus
 \--- Part Two ---
 -----------------
 
-Just as the missing Historian is released, The Historians realize that a _second_ member of their search party has also been missing this entire time!
+Just as the missing Historian is released, The Historians realize that a _second_ member of their search party has also been missing <span title="bum bum BUUUUUM">this entire time</span>!
 
 A quick life-form scan reveals the Historian is also trapped in a locked area of the ship. Due to a variety of hazards, robots are once again dispatched, forming another chain of remote control keypads managing robotic-arm-wielding robots.
 

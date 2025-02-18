@@ -36,7 +36,7 @@ Your puzzle input describes all of the possible replacements and, at the bottom,
 
 Now that the machine is calibrated, you're ready to begin molecule fabrication.
 
-Molecule fabrication always begins with just a single electron, `e`, and applying replacements one at a time, just like the ones during calibration.
+Molecule fabrication always begins with just a single <span title="It's a Red-Nosed Reindeer electron.">electron</span>, `e`, and applying replacements one at a time, just like the ones during calibration.
 
 For example, suppose you have the following replacements:
 

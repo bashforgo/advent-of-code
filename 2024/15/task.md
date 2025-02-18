@@ -7,7 +7,7 @@ You look up to see a vast school of [lanternfish](/2021/day/6) swimming past you
 
 Because lanternfish populations grow rapidly, they need a lot of food, and that food needs to be stored somewhere. That's why these lanternfish have built elaborate warehouse complexes operated by robots!
 
-These lanternfish seem so anxious because they have lost control of the robot that operates one of their most important warehouses! It is currently running amok, pushing around boxes in the warehouse with no regard for lanternfish logistics _or_ lanternfish inventory management strategies.
+These lanternfish seem so anxious because they have lost control of the robot that operates one of their most important warehouses! It is currently running <span title="Wesnoth players might solve their Warehouse Woes with a Warehouse Wose!">amok</span>, pushing around boxes in the warehouse with no regard for lanternfish logistics _or_ lanternfish inventory management strategies.
 
 Right now, none of the lanternfish are brave enough to swim up to an unpredictable robot so they could shut it off. However, if you could anticipate the robot's movements, maybe they could find a safe option.
 
