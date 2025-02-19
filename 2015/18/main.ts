@@ -1,5 +1,5 @@
 import { getInput } from "@utilities/getInput.ts";
-import { addPoints } from "@utilities/grid/addPoints.ts";
+import { get8DirectionalAdjacentPoints } from "@utilities/grid/getAdjacentPoints.ts";
 import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
@@ -22,18 +22,9 @@ const lights: Grid<boolean> = lines.map((line) =>
 );
 
 const getNeighborStates = (lights: Grid<boolean>, p: Point) => {
-  const deltas = [
-    point(-1, 0),
-    point(-1, 1),
-    point(0, 1),
-    point(1, 1),
-    point(1, 0),
-    point(1, -1),
-    point(0, -1),
-    point(-1, -1),
-  ];
-
-  return deltas.map((delta) => getPoint(lights, addPoints(p, delta)) ?? false);
+  return get8DirectionalAdjacentPoints(p)
+    .map((p) => getPoint(lights, p))
+    .toArray();
 };
 
 const step = (lights: Grid<boolean>) => {
