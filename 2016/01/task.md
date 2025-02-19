@@ -1,3 +1,5 @@
+<style>[title] { text-decoration: underline dotted; }</style>
+
 \--- Day 1: No Time for a Taxicab ---
 -------------------------------------
 

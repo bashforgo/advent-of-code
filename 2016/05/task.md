@@ -1,3 +1,5 @@
+<style>[title] { text-decoration: underline dotted; }</style>
+
 \--- Day 5: How About a Nice Game of Chess? ---
 -----------------------------------------------
 

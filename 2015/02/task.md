@@ -1,3 +1,5 @@
+<style>[title] { text-decoration: underline dotted; }</style>
+
 \--- Day 2: I Was Told There Would Be No Math ---
 -------------------------------------------------
 

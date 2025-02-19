@@ -27,7 +27,12 @@ const articlesHtml = Array.from(articles)
   .map((article) => article.outerHTML)
   .join("\n");
 
-const taskMarkdown = turndownService.turndown(articlesHtml);
+const easterEggHighlightStyle = `\
+<style>[title] { text-decoration: underline dotted; }</style>
+`;
+const taskMarkdown = `\
+${easterEggHighlightStyle}
+${turndownService.turndown(articlesHtml)}`;
 
 const dayWithLeadingZero = day.padStart(2, "0");
 const path = `./${year}/${dayWithLeadingZero}/task.md`;

@@ -1,3 +1,5 @@
+<style>[title] { text-decoration: underline dotted; }</style>
+
 \--- Day 17: No Such Thing as Too Much ---
 ------------------------------------------
 

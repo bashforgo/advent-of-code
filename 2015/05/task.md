@@ -1,3 +1,5 @@
+<style>[title] { text-decoration: underline dotted; }</style>
+
 \--- Day 5: Doesn't He Have Intern-Elves For This? ---
 ------------------------------------------------------
 

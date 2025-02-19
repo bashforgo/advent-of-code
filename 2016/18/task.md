@@ -1,3 +1,5 @@
+<style>[title] { text-decoration: underline dotted; }</style>
+
 \--- Day 18: Like a Rogue ---
 -----------------------------
 

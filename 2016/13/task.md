@@ -1,3 +1,5 @@
+<style>[title] { text-decoration: underline dotted; }</style>
+
 \--- Day 13: A Maze of Twisty Little Cubicles ---
 -------------------------------------------------
 
