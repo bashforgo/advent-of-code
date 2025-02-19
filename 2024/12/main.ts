@@ -1,7 +1,12 @@
 import { sumOf } from "@std/collections";
 import { ObjectSet } from "@utilities/ObjectSet.ts";
 import { getInput } from "@utilities/getInput.ts";
-import { Direction, directions } from "@utilities/grid/Direction.ts";
+import {
+  Direction,
+  directions,
+  getNextDirectionClockwise,
+  getNextDirectionCounterClockwise,
+} from "@utilities/grid/Direction.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
 import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
@@ -66,13 +71,6 @@ console.log(
   sumOf(areas, (area) => calculateArea(area) * calculatePerimeter(area)),
 );
 
-const perpendicularDirections = new Map<Direction, [Direction, Direction]>([
-  [Direction.North, [Direction.West, Direction.East]],
-  [Direction.East, [Direction.North, Direction.South]],
-  [Direction.South, [Direction.West, Direction.East]],
-  [Direction.West, [Direction.North, Direction.South]],
-]) as ReadonlyMap<Direction, [Direction, Direction]>;
-
 function* walkDirection(
   start: Point,
   area: ObjectSet<Point>,
@@ -101,14 +99,17 @@ function* walkSide(
 ) {
   yield start;
 
-  const [leftDirection, rightDirection] = perpendicularDirections.get(
+  const clockwiseDirection = getNextDirectionClockwise(
     perimeterCheckDirection,
-  )!;
-  for (const point of walkDirection(start, area, leftDirection)) {
+  );
+  const counterClockwiseDirection = getNextDirectionCounterClockwise(
+    perimeterCheckDirection,
+  );
+  for (const point of walkDirection(start, area, clockwiseDirection)) {
     if (!isPerimeterPoint(point, perimeterCheckDirection)) break;
     yield point;
   }
-  for (const point of walkDirection(start, area, rightDirection)) {
+  for (const point of walkDirection(start, area, counterClockwiseDirection)) {
     if (!isPerimeterPoint(point, perimeterCheckDirection)) break;
     yield point;
   }

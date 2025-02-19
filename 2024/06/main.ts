@@ -1,5 +1,8 @@
 import { getInput } from "@utilities/getInput.ts";
-import { Direction } from "@utilities/grid/Direction.ts";
+import {
+  Direction,
+  getNextDirectionClockwise,
+} from "@utilities/grid/Direction.ts";
 import { getAdjacentPoint } from "@utilities/grid/getAdjacentPoint.ts";
 import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
@@ -65,12 +68,6 @@ const walk = (map: Grid<Tile>, robot: Point) => {
       }
     }
   };
-  const nextDirection = {
-    [Direction.North]: Direction.East,
-    [Direction.East]: Direction.South,
-    [Direction.South]: Direction.West,
-    [Direction.West]: Direction.North,
-  } as const;
 
   const path = new ObjectSet<{ direction: Direction; position: Point }>();
 
@@ -83,7 +80,7 @@ const walk = (map: Grid<Tile>, robot: Point) => {
     const [isTurn, turnPoint] = getNextTurn(position, direction);
 
     position = turnPoint;
-    direction = isTurn ? nextDirection[direction] : direction;
+    direction = isTurn ? getNextDirectionClockwise(direction) : direction;
 
     isLoop = path.has({ direction, position });
     if (isLoop) break;
