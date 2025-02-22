@@ -2,6 +2,7 @@ import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 import { addPoints } from "@utilities/grid/addPoints.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -50,7 +51,7 @@ const solve = (A: Point, B: Point, P: Point) => {
 const part1Result = clawMachineConfigs.map(({ buttonA, buttonB, prize }) =>
   solve(buttonA, buttonB, prize)
 );
-console.log(sumOf(part1Result.filter((x) => !Number.isNaN(x)), (x) => x));
+console.log(sumOf(part1Result.filter((x) => !Number.isNaN(x)), identity));
 
 const part2Result = clawMachineConfigs
   .map(({ buttonA, buttonB, prize }) => ({
@@ -60,4 +61,4 @@ const part2Result = clawMachineConfigs
   }))
   .map(({ buttonA, buttonB, prize }) => solve(buttonA, buttonB, prize))
   .filter((x) => !Number.isNaN(x));
-console.log(sumOf(part2Result, (x) => x));
+console.log(sumOf(part2Result, identity));

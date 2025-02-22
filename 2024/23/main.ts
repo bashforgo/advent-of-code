@@ -1,5 +1,6 @@
 import { maxBy } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 import { ObjectSet } from "@utilities/ObjectSet.ts";
 
 const DEBUG = false;
@@ -47,7 +48,7 @@ const connections = input
 
 if (DEBUG) connections.sort();
 
-const computersSet = new Set(connections.flatMap((c) => c));
+const computersSet = new Set(connections.flatMap(identity));
 const connectionsSet = ObjectSet.from(
   connections.map((c) => c.toSorted() as [string, string]),
 );

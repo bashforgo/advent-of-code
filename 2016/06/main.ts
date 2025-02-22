@@ -1,5 +1,6 @@
 import { getInput } from "@utilities/getInput.ts";
 import { transpose } from "@utilities/grid/transpose.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -30,7 +31,7 @@ const part1 = () => {
   const positions = transpose(characterArrays);
   const positionCharacterFrequencies = positions.map((position) =>
     new Map(
-      Map.groupBy(position, (c) => c)
+      Map.groupBy(position, identity)
         .entries()
         .map(([c, cs]) => [c, cs.length]),
     )
@@ -50,7 +51,7 @@ const part2 = () => {
   const positions = transpose(characterArrays);
   const positionCharacterFrequencies = positions.map((position) =>
     new Map(
-      Map.groupBy(position, (c) => c)
+      Map.groupBy(position, identity)
         .entries()
         .map(([c, cs]) => [c, cs.length]),
     )

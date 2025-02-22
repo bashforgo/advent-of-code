@@ -1,5 +1,6 @@
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -10,7 +11,7 @@ const input = DEBUG
 
 const inputNumbers = input.trim().split(",").map(Number);
 
-const lanternFishesByTimer = Map.groupBy(inputNumbers, (x) => x);
+const lanternFishesByTimer = Map.groupBy(inputNumbers, identity);
 
 const numberOfLanternFishesByTimer = new Map(
   lanternFishesByTimer.entries().map((
@@ -43,7 +44,7 @@ const step = (fishes: Map<number, number>): Map<number, number> => {
   for (let i = 0; i < 80; i++) {
     currentFishes = step(currentFishes);
   }
-  console.log(sumOf(currentFishes.values(), (x) => x));
+  console.log(sumOf(currentFishes.values(), identity));
 }
 
 {
@@ -51,5 +52,5 @@ const step = (fishes: Map<number, number>): Map<number, number> => {
   for (let i = 0; i < 256; i++) {
     currentFishes = step(currentFishes);
   }
-  console.log(sumOf(currentFishes.values(), (x) => x));
+  console.log(sumOf(currentFishes.values(), identity));
 }

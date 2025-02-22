@@ -1,5 +1,6 @@
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 import { range } from "@utilities/range.ts";
 
 const DEBUG = false;
@@ -13,7 +14,7 @@ const [, row, column] = input.match(/row (\d+), column (\d+)/)!.map(Number);
 
 const rcToOrdinal = (row: number, column: number) => {
   const nthDiagonal = row + column - 1;
-  const topValueInDiagonal = sumOf(range(1, nthDiagonal), (x) => x);
+  const topValueInDiagonal = sumOf(range(1, nthDiagonal), identity);
   const distanceFromTop = row - 1;
   return topValueInDiagonal - distanceFromTop;
 };

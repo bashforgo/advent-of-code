@@ -4,6 +4,7 @@ import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
 import { setPoint } from "@utilities/grid/setPoint.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -117,7 +118,7 @@ const part2 = () => {
 
   return sumOf(
     lights.values().flatMap((x) => x.values()),
-    (x) => x,
+    identity,
   );
 };
 console.log(part2());

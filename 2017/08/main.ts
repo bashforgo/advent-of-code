@@ -1,6 +1,7 @@
 import { unreachable } from "@std/assert";
 import { maxBy } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -116,12 +117,12 @@ function* interpret(operations: Operation[]) {
 
 const part1 = () => {
   const registers = interpret(operations).reduce((_, x) => x, {});
-  return maxBy(Object.values(registers), (x) => x);
+  return maxBy(Object.values(registers), identity);
 };
 console.log(part1());
 
 const part2 = () => {
   const allValues = interpret(operations).flatMap((r) => Object.values(r));
-  return maxBy(allValues, (x) => x);
+  return maxBy(allValues, identity);
 };
 console.log(part2());

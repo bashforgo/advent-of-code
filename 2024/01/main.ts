@@ -1,5 +1,6 @@
 import { sumOf, unzip, zip } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 
 const input = await getInput(2024, 1);
 
@@ -16,10 +17,10 @@ const distances = zip(leftLocationIds, rightLocationIds).map(([left, right]) =>
   Math.abs(left - right)
 );
 
-console.log(sumOf(distances, (x) => x));
+console.log(sumOf(distances, identity));
 
 const uniqueLeftLocationIds = Array.from(new Set(leftLocationIds));
-const instancesOfRightLocationIds = Map.groupBy(rightLocationIds, (x) => x);
+const instancesOfRightLocationIds = Map.groupBy(rightLocationIds, identity);
 
 let similarity = 0;
 for (const location of uniqueLeftLocationIds) {

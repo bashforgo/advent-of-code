@@ -2,6 +2,7 @@ import { maxOf, minOf, sumOf } from "@std/collections";
 import { ascend } from "@std/data-structures";
 import { getInput } from "@utilities/getInput.ts";
 import { pickN } from "@utilities/pickN.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -19,8 +20,8 @@ const part1 = () => {
   return sumOf(
     cells,
     (row) => {
-      const min = minOf(row, (x) => x)!;
-      const max = maxOf(row, (x) => x)!;
+      const min = minOf(row, identity)!;
+      const max = maxOf(row, identity)!;
       return max - min;
     },
   );

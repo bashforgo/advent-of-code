@@ -7,6 +7,7 @@ import { getAdjacentPointsInBounds } from "@utilities/grid/getAdjacentPoints.ts"
 import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { point } from "@utilities/grid/Point.ts";
+import { identity } from "@utilities/identity.ts";
 import { ObjectMap } from "@utilities/ObjectMap.ts";
 
 const DEBUG = false;
@@ -187,7 +188,7 @@ const getControlSequenceLength = <T>(
           directionalPadPaths,
         );
       });
-      const shortestSequenceLength = minBy(recursive, (s) => s)!;
+      const shortestSequenceLength = minBy(recursive, identity)!;
       length += shortestSequenceLength;
     }
 

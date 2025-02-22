@@ -1,5 +1,6 @@
 import { maxOf, permutations, slidingWindows, sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 import { ObjectMap } from "@utilities/ObjectMap.ts";
 
 const DEBUG = false;
@@ -29,7 +30,7 @@ const happinessIndex = ObjectMap.from(
     return [[a, b], Number(amount) * (gainOrLose === "gain" ? 1 : -1)] as const;
   }),
 );
-const attendees = new Set(happinessIndex.keys().flatMap((x) => x));
+const attendees = new Set(happinessIndex.keys().flatMap(identity));
 
 const calculateHappiness = (seating: string[]) => {
   const neighbors = slidingWindows(seating, 2)

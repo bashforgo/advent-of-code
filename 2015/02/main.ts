@@ -1,5 +1,6 @@
 import { minBy, sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 
 const input = await getInput(2015, 2);
 const boxes = input.trim().split("\n").map((line) => {
@@ -10,7 +11,7 @@ const boxes = input.trim().split("\n").map((line) => {
 const part1 = () => {
   return sumOf(boxes, ({ length, width, height }) => {
     const sides = [length * width, width * height, height * length];
-    const smallestSide = minBy(sides, (x) => x)!;
+    const smallestSide = minBy(sides, identity)!;
     return sumOf(sides, (x) => 2 * x) + smallestSide;
   });
 };

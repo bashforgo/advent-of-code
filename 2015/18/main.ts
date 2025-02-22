@@ -3,6 +3,7 @@ import { get8DirectionalAdjacentPoints } from "@utilities/grid/getAdjacentPoints
 import { getPoint } from "@utilities/grid/getPoint.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -31,7 +32,7 @@ const step = (lights: Grid<boolean>) => {
   return lights.map((row, y) =>
     row.map((light, x) => {
       const neighborStates = getNeighborStates(lights, point(x, y));
-      const numberOfNeighborsOn = neighborStates.filter((s) => s).length;
+      const numberOfNeighborsOn = neighborStates.filter(identity).length;
 
       if (light) {
         const shouldStayOn = numberOfNeighborsOn === 2 ||

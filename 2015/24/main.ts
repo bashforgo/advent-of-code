@@ -1,5 +1,6 @@
 import { minOf, sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -20,7 +21,7 @@ const input = DEBUG
 const lines = input.trim().split("\n");
 const packages = lines.map(Number).sort((a, b) => b - a);
 
-const totalWeight = sumOf(packages, (x) => x);
+const totalWeight = sumOf(packages, identity);
 
 function* pickPackages(
   packages: number[],

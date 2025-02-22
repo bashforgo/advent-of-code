@@ -1,6 +1,7 @@
 import { unreachable } from "@std/assert/unreachable";
 import { associateBy } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { identity } from "@utilities/identity.ts";
 import { productOf } from "@utilities/productOf.ts";
 
 const DEBUG = false;
@@ -168,6 +169,6 @@ const part2 = () => {
     ...outputs.get(0)!,
     ...outputs.get(1)!,
     ...outputs.get(2)!,
-  ], (x) => x);
+  ], identity);
 };
 console.log(part2());
