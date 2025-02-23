@@ -40,17 +40,39 @@ export class ObjectSet<T> {
   with(value: T) {
     if (this.has(value)) return this;
 
-    const copy = ObjectSet.from(this);
-    copy.add(value);
-    return copy;
+    const clone = this.clone();
+    clone.add(value);
+    return clone;
   }
 
   without(value: T) {
     if (!this.has(value)) return this;
 
-    const copy = ObjectSet.from(this);
-    copy.delete(value);
-    return copy;
+    const clone = this.clone();
+    clone.delete(value);
+    return clone;
+  }
+
+  clone() {
+    const clone = new ObjectSet<T>();
+    for (const [key, value] of this.#map) {
+      clone.#map.set(key, value);
+    }
+    return clone;
+  }
+
+  union<U>(other: ObjectSet<U>): ObjectSet<T | U> {
+    const [smaller, larger] = this.size < other.size
+      ? [this, other]
+      : [other, this];
+
+    if (smaller.isEmpty()) return larger;
+
+    const clone = larger.clone() as ObjectSet<T | U>;
+    for (const [key, value] of smaller.#map) {
+      clone.#map.set(key, value);
+    }
+    return clone;
   }
 
   toJSON() {

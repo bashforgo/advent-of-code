@@ -1,5 +1,6 @@
 import { memoize } from "@std/cache";
 import { aStar } from "@utilities/aStar.ts";
+import { countSetBits } from "@utilities/countSetBits.ts";
 import { dijkstras } from "@utilities/dijkstras.ts";
 import { getInput } from "@utilities/getInput.ts";
 import { getAdjacentPoints } from "@utilities/grid/getAdjacentPoints.ts";
@@ -14,15 +15,6 @@ const input = DEBUG
   : await getInput(2016, 13);
 
 const designersFavoriteNumber = Number(input.trim());
-
-const countSetBits = (n: number) => {
-  let count = 0;
-  while (n) {
-    n &= n - 1;
-    count++;
-  }
-  return count;
-};
 
 const isWall = memoize((x: number, y: number) => {
   const sum = x * x +
