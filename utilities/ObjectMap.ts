@@ -7,6 +7,20 @@ export class ObjectMap<TKey, TValue> {
     return map;
   }
 
+  static groupBy<T, U>(
+    iterable: Iterable<T>,
+    keySelector: (value: T) => U,
+  ): ObjectMap<U, T[]> {
+    const map = new ObjectMap<U, T[]>();
+    for (const value of iterable) {
+      const key = keySelector(value);
+      const group = map.get(key) ?? [];
+      group.push(value);
+      map.set(key, group);
+    }
+    return map;
+  }
+
   readonly #map = new Map<string, [TKey, TValue]>();
 
   set(key: TKey, value: TValue) {
@@ -47,7 +61,9 @@ export class ObjectMap<TKey, TValue> {
     }
   }
 
-  [Symbol.iterator] = this.#map.values.bind(this.#map);
+  *[Symbol.iterator]() {
+    yield* this.entries();
+  }
 
   #getKey(value: TKey) {
     return JSON.stringify(value);
