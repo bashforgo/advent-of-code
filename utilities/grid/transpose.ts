@@ -1,12 +1,7 @@
 import { Grid } from "@utilities/grid/Grid.ts";
+import { getColumn } from "@utilities/grid/getColumn.ts";
 
 export const transpose = <T>(grid: Grid<T>): Grid<T> => {
-  return Array.from(columns(grid));
-};
-
-function* columns<T>(grid: Grid<T>): Generator<T[]> {
   const width = grid[0].length;
-  for (let x = 0; x < width; x++) {
-    yield grid.map((row) => row[x]);
-  }
-}
+  return Array.from({ length: width }, (_, x) => getColumn(grid, x));
+};
