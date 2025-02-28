@@ -3,16 +3,15 @@ import { memoize } from "@std/cache/memoize";
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 import { flipHorizontally, flipVertically } from "@utilities/grid/flip.ts";
-import { getPoint } from "@utilities/grid/getPoint.ts";
 import { getRow } from "@utilities/grid/getRow.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { makeGrid } from "@utilities/grid/makeGrid.ts";
 import { mapGrid } from "@utilities/grid/mapGrid.ts";
-import { point } from "@utilities/grid/Point.ts";
 import {
   rotateClockwise,
   rotateCounterClockwise,
 } from "@utilities/grid/rotate.ts";
+import { subGrid } from "@utilities/grid/subGrid.ts";
 import { identity } from "@utilities/identity.ts";
 import { ObjectMap } from "@utilities/ObjectMap.ts";
 import { range } from "@utilities/range.ts";
@@ -93,11 +92,14 @@ const splitGrid = <T>(
     outputWidth,
     outputHeight,
     ({ x, y }) =>
-      makeGrid(
-        innerWidth,
-        innerHeight,
-        ({ x: dx, y: dy }) =>
-          getPoint(grid, point(x * innerWidth + dx, y * innerHeight + dy))!,
+      subGrid(
+        grid,
+        {
+          x: x * innerWidth,
+          y: y * innerHeight,
+          width: innerWidth,
+          height: innerHeight,
+        },
       ),
   );
 };

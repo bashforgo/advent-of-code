@@ -7,7 +7,13 @@ export const makeGrid = <T>(
   height: number,
   getValue: (point: Point) => T,
 ): Grid<T> => {
-  return range(0, height - 1).map((y) =>
-    range(0, width - 1).map((x) => getValue(point(x, y))).toArray()
-  ).toArray();
+  if (width === 0 || height === 0) return [];
+
+  return range(0, height - 1)
+    .map((y) =>
+      range(0, width - 1)
+        .map((x) => getValue(point(x, y)))
+        .toArray()
+    )
+    .toArray();
 };
