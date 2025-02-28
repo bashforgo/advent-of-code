@@ -1,4 +1,5 @@
 import { sumOf } from "@std/collections";
+import { countBy } from "@utilities/countBy.ts";
 import { getInput } from "@utilities/getInput.ts";
 import { identity } from "@utilities/identity.ts";
 
@@ -30,11 +31,7 @@ const rooms = lines.map((line): Room => {
 
 const computeChecksum = (name: string) => {
   const letters = name.replace(/-/g, "");
-  const counts = new Map(
-    Map.groupBy(letters, identity)
-      .entries()
-      .map(([letter, group]) => [letter, group.length]),
-  );
+  const counts = countBy(letters, identity);
   const sortedCounts = counts.entries()
     .toArray()
     .toSorted(([aLetter, aCount], [bLetter, bCount]) => {

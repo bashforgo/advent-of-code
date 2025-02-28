@@ -1,3 +1,4 @@
+import { countBy } from "@utilities/countBy.ts";
 import { getInput } from "@utilities/getInput.ts";
 import { transpose } from "@utilities/grid/transpose.ts";
 import { identity } from "@utilities/identity.ts";
@@ -30,11 +31,7 @@ const characterArrays = lines.map((line) => line.split(""));
 const part1 = () => {
   const positions = transpose(characterArrays);
   const positionCharacterFrequencies = positions.map((position) =>
-    new Map(
-      Map.groupBy(position, identity)
-        .entries()
-        .map(([c, cs]) => [c, cs.length]),
-    )
+    countBy(position, identity)
   );
   return positionCharacterFrequencies
     .map((frequency) => {
@@ -50,11 +47,7 @@ console.log(part1());
 const part2 = () => {
   const positions = transpose(characterArrays);
   const positionCharacterFrequencies = positions.map((position) =>
-    new Map(
-      Map.groupBy(position, identity)
-        .entries()
-        .map(([c, cs]) => [c, cs.length]),
-    )
+    countBy(position, identity)
   );
   return positionCharacterFrequencies
     .map((frequency) => {
