@@ -21,6 +21,14 @@ export class ObjectMap<TKey, TValue> {
     return map;
   }
 
+  static countBy<T, U>(
+    iterable: Iterable<T>,
+    keySelector: (value: T) => U,
+  ) {
+    return ObjectMap.groupBy(iterable, keySelector)
+      .map((group) => group.length);
+  }
+
   readonly #map = new Map<string, [TKey, TValue]>();
 
   set(key: TKey, value: TValue) {
@@ -41,6 +49,12 @@ export class ObjectMap<TKey, TValue> {
 
   get size() {
     return this.#map.size;
+  }
+
+  map<TMappedValue>(callback: (value: TValue, key: TKey) => TMappedValue) {
+    return ObjectMap.from(
+      this.entries().map(([key, value]) => [key, callback(value, key)]),
+    );
   }
 
   *keys() {
