@@ -13,3 +13,14 @@ export const subGrid = <T>(
     ({ x: dx, y: dy }) => getPoint(grid, { x: x + dx, y: y + dy })!,
   );
 };
+
+export function* subGridValues<T>(
+  grid: Grid<T>,
+  { x, y, width, height }: Rectangle,
+): Generator<T> {
+  for (let dy = 0; dy < height; dy++) {
+    for (let dx = 0; dx < width; dx++) {
+      yield getPoint(grid, { x: x + dx, y: y + dy })!;
+    }
+  }
+}
