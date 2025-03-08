@@ -1,4 +1,5 @@
-import { assertEquals } from "@std/assert";
+import { assertEquals, unreachable } from "@std/assert";
+import { zip } from "@std/collections";
 import { DoublyLinkedList } from "@utilities/DoublyLinkedList.ts";
 import { getInput } from "@utilities/getInput.ts";
 
@@ -77,25 +78,41 @@ const part1 = () => {
 console.log(part1());
 
 const findIndexOfPattern = (pattern: string) => {
-  const { list, index } = produceRecipes()
-    .map((list) => {
-      const walkBackBy = pattern.length;
-      const [sliceStart] = list.nodesReverse()
-        .drop(walkBackBy)
-        .take(1);
-      const slice = list.nodes(sliceStart)
-        .map((node) => node.value)
-        .toArray()
-        .join("");
-      const index = slice.indexOf(pattern);
-      return { list, index };
-    })
-    .find(({ index }) => index >= 0)!;
+  const reversePattern = pattern.split("")
+    .reverse()
+    .map(Number);
 
-  return {
-    list,
-    index: list.size - pattern.length + index - 1,
-  };
+  for (const list of produceRecipes()) {
+    const [last, secondToLast] = list.nodesReverse();
+
+    if (last.value === reversePattern[0]) {
+      const values = list.valuesReverse(last)
+        .take(reversePattern.length)
+        .toArray();
+      const matches = zip(values, reversePattern)
+        .every(([a, b]) => a === b);
+      if (matches) {
+        return {
+          list,
+          index: list.size - reversePattern.length,
+        };
+      }
+    } else if (secondToLast.value === reversePattern[0]) {
+      const values = list.valuesReverse(secondToLast)
+        .take(reversePattern.length)
+        .toArray();
+      const matches = zip(values, reversePattern)
+        .every(([a, b]) => a === b);
+      if (matches) {
+        return {
+          list,
+          index: list.size - reversePattern.length - 1,
+        };
+      }
+    }
+  }
+
+  unreachable();
 };
 
 {

@@ -90,6 +90,18 @@ export class DoublyLinkedList<T> {
     return node;
   }
 
+  *values(from = this.#head.next) {
+    for (const node of this.nodes(from)) {
+      yield node.value;
+    }
+  }
+
+  *valuesReverse(from = this.#tail.prev) {
+    for (const node of this.nodesReverse(from)) {
+      yield node.value;
+    }
+  }
+
   *nodes(from = this.#head.next) {
     let current = from;
     while (!DoublyLinkedList.#isTailNode(current)) {
@@ -107,18 +119,24 @@ export class DoublyLinkedList<T> {
   }
 
   *clockwiseCircle(from = this.#head.next) {
-    yield* this.nodes(from);
+    if (DoublyLinkedList.#isTailNode(this.#head.next)) return;
 
+    let current = from as ValueNode<T>;
     while (true) {
-      yield* this.nodes();
+      yield current;
+      const { next } = current;
+      current = DoublyLinkedList.#isTailNode(next) ? this.#head.next : next;
     }
   }
 
   *counterClockwiseCircle(from = this.#tail.prev) {
-    yield* this.nodesReverse(from);
+    if (DoublyLinkedList.#isHeadNode(this.#tail.prev)) return;
 
+    let current = from as ValueNode<T>;
     while (true) {
-      yield* this.nodesReverse();
+      yield current;
+      const { prev } = current;
+      current = DoublyLinkedList.#isHeadNode(prev) ? this.#tail.prev : prev;
     }
   }
 
