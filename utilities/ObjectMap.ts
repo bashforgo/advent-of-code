@@ -57,6 +57,12 @@ export class ObjectMap<TKey, TValue> {
     );
   }
 
+  filter(predicate: (value: TValue, key: TKey) => boolean) {
+    return ObjectMap.from(
+      this.entries().filter(([key, value]) => predicate(value, key)),
+    );
+  }
+
   *keys() {
     for (const [, [key]] of this.#map) {
       yield key;

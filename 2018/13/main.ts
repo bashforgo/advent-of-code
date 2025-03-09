@@ -1,6 +1,6 @@
 import { unreachable } from "@std/assert";
-import { ascend } from "@std/data-structures";
 import { getInput } from "@utilities/getInput.ts";
+import { comparePoints } from "@utilities/grid/comparePoints.ts";
 import {
   Direction,
   getNextDirectionClockwise,
@@ -197,11 +197,9 @@ const changeDirection = (
 };
 
 const tick = (carts: Cart[]): [ok: Cart[], collided: Cart[]] => {
-  const sortedCarts = carts.toSorted((a, b) => {
-    const yOrd = ascend(a.position.y, b.position.y);
-    if (yOrd !== 0) return yOrd;
-    return ascend(a.position.x, b.position.x);
-  });
+  const sortedCarts = carts.toSorted((a, b) =>
+    comparePoints(a.position, b.position)
+  );
 
   const occupiedPositions = ObjectMap.groupBy(
     sortedCarts,
