@@ -1,4 +1,5 @@
 import { sumOf } from "@std/collections";
+import { countBy } from "@utilities/countBy.ts";
 import { getInput } from "@utilities/getInput.ts";
 import { identity } from "@utilities/identity.ts";
 
@@ -11,13 +12,7 @@ const input = DEBUG
 
 const inputNumbers = input.trim().split(",").map(Number);
 
-const lanternFishesByTimer = Map.groupBy(inputNumbers, identity);
-
-const numberOfLanternFishesByTimer = new Map(
-  lanternFishesByTimer.entries().map((
-    [counter, lanternFishes],
-  ) => [counter, lanternFishes.length]),
-);
+const numberOfLanternFishesByTimer = countBy(inputNumbers, identity);
 
 const step = (fishes: Map<number, number>): Map<number, number> => {
   const nextFishes = new Map<number, number>();

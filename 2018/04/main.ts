@@ -143,17 +143,14 @@ const minutelyRecordsByGuardId = ObjectMap.groupBy(
   ([date]) => guardIdByDate.get(date)!,
 );
 
-const sleepingHistogramByGuardId = ObjectMap.from(
-  minutelyRecordsByGuardId.entries()
-    .map(([guardId, records]) => {
-      const sleepingHistogram = ObjectMap.countBy(
-        records.flatMap(([, records]) => records)
-          .filter((r) => r.isAsleep),
-        (r) => r.minute,
-      );
-      return [guardId, sleepingHistogram] as const;
-    }),
-);
+const sleepingHistogramByGuardId = minutelyRecordsByGuardId
+  .map((records) => {
+    return ObjectMap.countBy(
+      records.flatMap(([, records]) => records)
+        .filter((r) => r.isAsleep),
+      (r) => r.minute,
+    );
+  });
 
 const part1 = () => {
   const asleepMinutesByGuardId = sleepingHistogramByGuardId.map(

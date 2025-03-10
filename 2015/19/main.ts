@@ -1,5 +1,6 @@
 import { BinaryHeap } from "@std/data-structures";
 import { getInput } from "@utilities/getInput.ts";
+import { mapMapValues } from "@utilities/mapMap.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -18,15 +19,14 @@ const [replacementsString, molecule] = input.trim().split("\n\n");
 const replacementsEntries = replacementsString
   .split("\n")
   .map((line) => line.split(" => ") as [string, string]);
-const replacements = new Map(
-  Map.groupBy(replacementsEntries, ([from]) => from)
-    .entries()
-    .map(([from, tos]) => [from, tos.map(([, to]) => to)] as const),
+
+const replacements = mapMapValues(
+  Map.groupBy(replacementsEntries, ([from]) => from),
+  (tos) => tos.map(([, to]) => to),
 );
-const replacementsReverse = new Map(
-  Map.groupBy(replacementsEntries, ([, to]) => to)
-    .entries()
-    .map(([to, froms]) => [to, froms.map(([from]) => from)] as const),
+const replacementsReverse = mapMapValues(
+  Map.groupBy(replacementsEntries, ([, to]) => to),
+  (froms) => froms.map(([from]) => from),
 );
 
 const generatePossibleMolecules = (molecule: string) => {

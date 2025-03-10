@@ -1,5 +1,6 @@
 import { partition, slidingWindows, sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
+import { mapMapValues } from "@utilities/mapMap.ts";
 
 const DEBUG = false;
 const input = DEBUG
@@ -38,13 +39,14 @@ const input = DEBUG
 const [pageOrderingRulesString, pageUpdatesString] = input.trim().split("\n\n");
 
 /** If `pageOrderingRules.get(A)?.has(B)` means page A should come before page B */
-const pageOrderingRules = new Map(
+const pageOrderingRules = mapMapValues(
   Map.groupBy(
     pageOrderingRulesString.split("\n").map((line) =>
       line.split("|").map(Number) as [number, number]
     ),
     ([a]) => a,
-  ).entries().map(([a, bs]) => [a, new Set(bs.map(([, b]) => b))] as const),
+  ),
+  (bs) => new Set(bs.map(([, b]) => b)),
 );
 
 const comparePages = (a: number, b: number) => {
