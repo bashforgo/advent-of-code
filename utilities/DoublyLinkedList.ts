@@ -141,11 +141,7 @@ export class DoublyLinkedList<T> {
   }
 
   *[Symbol.iterator]() {
-    let current = this.#head.next;
-    while (!DoublyLinkedList.#isTailNode(current)) {
-      yield current.value;
-      current = current.next;
-    }
+    yield* this.values();
   }
 
   static #isHeadNode = <T>(node: Node<T>): node is HeadNode<T> =>

@@ -173,4 +173,35 @@ describe("DoublyLinkedList", () => {
       expect(values).toEqual([3, 2, 1, 3]);
     });
   });
+
+  describe("values", () => {
+    test("should iterate over all values in the list", () => {
+      expect([...list.values()]).toEqual([1, 2, 3]);
+    });
+
+    test("should iterate from a specific node", () => {
+      expect([...list.values(middle)]).toEqual([2, 3]);
+    });
+  });
+
+  describe("valuesReverse", () => {
+    test("should iterate over all values in the list in reverse order", () => {
+      expect([...list.valuesReverse()]).toEqual([3, 2, 1]);
+    });
+
+    test("should iterate from a specific node in reverse", () => {
+      expect([...list.valuesReverse(middle)]).toEqual([2, 1]);
+    });
+  });
+
+  describe("iterator", () => {
+    test("should iterate over all values in the list", () => {
+      expect([...list]).toEqual([1, 2, 3]);
+    });
+
+    test("should work with empty list", () => {
+      const emptyList = new DoublyLinkedList<number>();
+      expect([...emptyList]).toEqual([]);
+    });
+  });
 });
