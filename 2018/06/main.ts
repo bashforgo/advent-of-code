@@ -4,7 +4,7 @@ import { getAdjacentPoints } from "@utilities/grid/getAdjacentPoints.ts";
 import { getManhattanDistance } from "@utilities/grid/getManhattanDistance.ts";
 import { isInBoundsOfRectangle } from "@utilities/grid/isInBounds.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
-import { Rectangle } from "@utilities/grid/Rectangle.ts";
+import { Rectangle, rectangle } from "@utilities/grid/Rectangle.ts";
 import { identity } from "@utilities/identity.ts";
 import { ObjectMap } from "@utilities/ObjectMap.ts";
 import { ObjectSet } from "@utilities/ObjectSet.ts";
@@ -78,7 +78,7 @@ const isPerimeter = (point: Point) =>
   point.x === minX || point.x === maxX || point.y === minY || point.y === maxY;
 
 const part1 = () => {
-  const bounds = { x: minX, y: minY, width, height };
+  const bounds = rectangle(minX, minY, width, height);
 
   const floodFillPredicate = (from: Point) => (to: Point) => {
     const closest = getClosestPoints(to);
@@ -104,7 +104,7 @@ console.log(part1());
 const part2 = () => {
   const maxDistance = DEBUG ? 32 : 10000;
 
-  const bounds = { x: minX, y: minY, width, height };
+  const bounds = rectangle(minX, minY, width, height);
 
   const floodFillPredicate = (to: Point) => {
     const distance = sumOf(points, (from) => getManhattanDistance(from, to));

@@ -7,6 +7,7 @@ import { getRow } from "@utilities/grid/getRow.ts";
 import { Grid } from "@utilities/grid/Grid.ts";
 import { makeGrid } from "@utilities/grid/makeGrid.ts";
 import { mapGrid } from "@utilities/grid/mapGrid.ts";
+import { rectangle } from "@utilities/grid/Rectangle.ts";
 import {
   rotateClockwise,
   rotateCounterClockwise,
@@ -94,12 +95,12 @@ const splitGrid = <T>(
     ({ x, y }) =>
       subGrid(
         grid,
-        {
-          x: x * innerWidth,
-          y: y * innerHeight,
-          width: innerWidth,
-          height: innerHeight,
-        },
+        rectangle(
+          x * innerWidth,
+          y * innerHeight,
+          innerWidth,
+          innerHeight,
+        ),
       ),
   );
 };

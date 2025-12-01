@@ -1,5 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { Grid } from "@utilities/grid/Grid.ts";
+import { rectangle } from "@utilities/grid/Rectangle.ts";
 import { subGrid } from "@utilities/grid/subGrid.ts";
 
 const grid: Grid<number> = [
@@ -10,19 +11,19 @@ const grid: Grid<number> = [
 ];
 
 Deno.test("1x1 subGrid", () => {
-  assertEquals(subGrid(grid, { x: 1, y: 1, width: 1, height: 1 }), [[21]]);
+  assertEquals(subGrid(grid, rectangle(1, 1, 1, 1)), [[21]]);
 });
 
 Deno.test("1x3 subGrid", () => {
   assertEquals(
-    subGrid(grid, { x: 1, y: 1, width: 1, height: 3 }),
+    subGrid(grid, rectangle(1, 1, 1, 3)),
     [[21], [31], [41]],
   );
 });
 
 Deno.test("2x2 subGrid", () => {
   assertEquals(
-    subGrid(grid, { x: 1, y: 1, width: 2, height: 2 }),
+    subGrid(grid, rectangle(1, 1, 2, 2)),
     [
       [21, 22],
       [31, 32],
@@ -32,7 +33,7 @@ Deno.test("2x2 subGrid", () => {
 
 Deno.test("3x3 subGrid", () => {
   assertEquals(
-    subGrid(grid, { x: 1, y: 1, width: 3, height: 3 }),
+    subGrid(grid, rectangle(1, 1, 3, 3)),
     [
       [21, 22, 23],
       [31, 32, 33],
@@ -43,14 +44,14 @@ Deno.test("3x3 subGrid", () => {
 
 Deno.test("0x2 subGrid", () => {
   assertEquals(
-    subGrid(grid, { x: 1, y: 1, width: 0, height: 2 }),
+    subGrid(grid, rectangle(1, 1, 0, 2)),
     [],
   );
 });
 
 Deno.test("2x0 subGrid", () => {
   assertEquals(
-    subGrid(grid, { x: 1, y: 1, width: 2, height: 0 }),
+    subGrid(grid, rectangle(1, 1, 2, 0)),
     [],
   );
 });

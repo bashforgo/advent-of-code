@@ -7,7 +7,7 @@ import { gridEntries } from "@utilities/grid/gridEntries.ts";
 import { makeGrid } from "@utilities/grid/makeGrid.ts";
 import { mapGrid } from "@utilities/grid/mapGrid.ts";
 import { Point, point } from "@utilities/grid/Point.ts";
-import { Rectangle } from "@utilities/grid/Rectangle.ts";
+import { Rectangle, rectangle } from "@utilities/grid/Rectangle.ts";
 import { range } from "@utilities/range.ts";
 
 const input = await getInput(2018, 11);
@@ -105,7 +105,7 @@ const computeSum = (
     const grid = computeGrid(18);
     const summedAreaTable = computeSummedAreaTable(grid);
     assertEquals(
-      computeSum(summedAreaTable, { x: 33, y: 45, width: 3, height: 3 }),
+      computeSum(summedAreaTable, rectangle(33, 45, 3, 3)),
       29,
     );
   });
@@ -114,7 +114,7 @@ const computeSum = (
     const grid = computeGrid(42);
     const summedAreaTable = computeSummedAreaTable(grid);
     assertEquals(
-      computeSum(summedAreaTable, { x: 21, y: 61, width: 3, height: 3 }),
+      computeSum(summedAreaTable, rectangle(21, 61, 3, 3)),
       30,
     );
   });
@@ -130,11 +130,10 @@ const computeMaxSquare = (
       .filter(([{ x, y }]) => x + size <= width && y + size <= height)
       .map(([point]) => ({
         point,
-        power: computeSum(summedAreaTable, {
-          ...point,
-          width: size,
-          height: size,
-        }),
+        power: computeSum(
+          summedAreaTable,
+          rectangle(point.x, point.y, size, size),
+        ),
       })),
     ({ power }) => power,
   )!;
