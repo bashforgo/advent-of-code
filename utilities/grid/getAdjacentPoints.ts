@@ -25,3 +25,13 @@ export function* get8DirectionalAdjacentPoints(point: Point) {
     yield get8DirectionalAdjacentPoint(point, ...directions);
   }
 }
+
+export function* get8DirectionalAdjacentPointsInBounds(
+  grid: Grid<unknown>,
+  point: Point,
+) {
+  for (const directions of _8Directions) {
+    const adjacent = get8DirectionalAdjacentPoint(point, ...directions);
+    if (isInBounds(grid, adjacent)) yield adjacent;
+  }
+}
