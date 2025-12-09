@@ -1,6 +1,7 @@
 import { parse } from "@std/csv";
 import { ascend, BinaryHeap, descend } from "@std/data-structures";
 import { getInput } from "@utilities/getInput.ts";
+import { pickN } from "@utilities/pickN.ts";
 import { productOf } from "@utilities/productOf.ts";
 import { range } from "@utilities/range.ts";
 
@@ -59,21 +60,8 @@ const computeDistance = (a: Point3D, b: Point3D): number => {
 const readonlyDistances = new BinaryHeap<DistanceBetweenPoints>((a, b) =>
   ascend(a.distance, b.distance)
 );
-for (
-  const distance of junctionBoxes
-    .entries()
-    .flatMap(([i, a]) =>
-      junctionBoxes
-        .values()
-        .drop(i + 1)
-        .map((b): DistanceBetweenPoints => ({
-          a,
-          b,
-          distance: computeDistance(a, b),
-        }))
-    )
-) {
-  readonlyDistances.push(distance);
+for (const [a, b] of pickN(junctionBoxes, 2)) {
+  readonlyDistances.push({ a, b, distance: computeDistance(a, b) });
 }
 
 const part1 = () => {
