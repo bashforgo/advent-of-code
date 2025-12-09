@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@std/assert";
 import { flipHorizontally, flipVertically } from "@utilities/grid/flip.ts";
 
 const square = [

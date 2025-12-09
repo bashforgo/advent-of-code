@@ -1,5 +1,5 @@
 import { unreachable } from "@std/assert";
-import { memoize } from "@std/cache/memoize";
+import { memoize } from "@std/cache";
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 import { flipHorizontally, flipVertically } from "@utilities/grid/flip.ts";

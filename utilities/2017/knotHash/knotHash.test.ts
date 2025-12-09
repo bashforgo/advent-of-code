@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@std/assert";
 import { knotHash } from "@utilities/2017/knotHash/knotHash.ts";
 
 Deno.test('knotHash("") === "a2582a3a0e66e6e86e3812dcb672a272"', () => {

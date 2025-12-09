@@ -1,4 +1,4 @@
-import { unreachable } from "@std/assert/unreachable";
+import { unreachable } from "@std/assert";
 import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 import { identity } from "@utilities/identity.ts";

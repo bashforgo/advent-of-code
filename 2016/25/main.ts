@@ -1,4 +1,4 @@
-import { unreachable } from "@std/assert/unreachable";
+import { unreachable } from "@std/assert";
 import { getInput } from "@utilities/getInput.ts";
 import { range } from "@utilities/range.ts";
 

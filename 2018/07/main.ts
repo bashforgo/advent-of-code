@@ -1,4 +1,4 @@
-import { unreachable } from "@std/assert/unreachable";
+import { unreachable } from "@std/assert";
 import { maxOf } from "@std/collections";
 import { ascend, BinaryHeap } from "@std/data-structures";
 import { getInput } from "@utilities/getInput.ts";

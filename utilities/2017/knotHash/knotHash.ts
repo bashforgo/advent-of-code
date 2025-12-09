@@ -1,5 +1,5 @@
-import { chunk } from "@std/collections/chunk";
-import { encodeHex } from "@std/encoding/hex";
+import { chunk } from "@std/collections";
+import { encodeHex } from "@std/encoding";
 import { knotHashRound } from "@utilities/2017/knotHash/knotHashRound.ts";
 import { identity } from "@utilities/identity.ts";
 import { repeat } from "@utilities/repeat.ts";

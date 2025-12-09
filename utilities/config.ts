@@ -1,4 +1,5 @@
 import "@std/dotenv/load";
+
 import { throw_ } from "@utilities/throw.ts";
 
 export const BASE_URL = "https://adventofcode.com";

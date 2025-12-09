@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@std/assert";
 import { pickN } from "@utilities/pickN.ts";
 
 Deno.test("pick n=0 from 4", () => {

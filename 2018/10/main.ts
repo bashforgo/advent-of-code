@@ -1,5 +1,4 @@
-import { minOf } from "@std/collections";
-import { maxOf } from "@std/collections/max-of";
+import { maxOf, minOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 import { addPoints } from "@utilities/grid/addPoints.ts";
 import { getManhattanDistance } from "@utilities/grid/getManhattanDistance.ts";

@@ -1,5 +1,4 @@
-import { sumOf } from "@std/collections";
-import { mapValues } from "@std/collections/map-values";
+import { mapValues, sumOf } from "@std/collections";
 import { aStar } from "@utilities/aStar.ts";
 import { getInput } from "@utilities/getInput.ts";
 import { ObjectSet } from "@utilities/ObjectSet.ts";

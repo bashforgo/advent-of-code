@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert/equals";
+import { assertEquals } from "@std/assert";
 import { circularSlice } from "@utilities/2017/knotHash/circularSlice.ts";
 
 Deno.test("circularSlice([0, 1, 2, 3, 4], 0, 3) === [0, 1, 2]", () => {

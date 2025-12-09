@@ -1,4 +1,4 @@
-import { sumOf } from "@std/collections/sum-of";
+import { sumOf } from "@std/collections";
 import { getInput } from "@utilities/getInput.ts";
 
 const DEBUG = false;
