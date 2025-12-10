@@ -1,5 +1,5 @@
 {
-  "version": "4",
+  "version": "5",
   "specifiers": {
     "jsr:@b-fuze/deno-dom@~0.1.48": "0.1.48",
     "jsr:@denosaurs/plug@1.0.3": "1.0.3",
@@ -30,7 +30,8 @@
     "jsr:@std/testing@^1.0.9": "1.0.9",
     "jsr:@std/text@^1.0.10": "1.0.10",
     "npm:@types/turndown@^5.0.5": "5.0.5",
-    "npm:turndown@^7.2.0": "7.2.0"
+    "npm:turndown@^7.2.0": "7.2.0",
+    "npm:yalps@~0.6.3": "0.6.3"
   },
   "jsr": {
     "@b-fuze/deno-dom@0.1.48": {
@@ -167,10 +168,19 @@
     "@types/turndown@5.0.5": {
       "integrity": "sha512-TL2IgGgc7B5j78rIccBtlYAnkuv8nUQqhQc+DSYV5j9Be9XOcm/SKOVRuA47xAVI3680Tk9B1d8flK2GWT2+4w=="
     },
+    "heap@0.2.7": {
+      "integrity": "sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg=="
+    },
     "turndown@7.2.0": {
       "integrity": "sha512-eCZGBN4nNNqM9Owkv9HAtWRYfLA4h909E/WGAWWBpmB275ehNhZyk87/Tpvjbp0jjNl9XwCsbe6bm6CqFsgD+A==",
       "dependencies": [
         "@mixmark-io/domino"
+      ]
+    },
+    "yalps@0.6.3": {
+      "integrity": "sha512-XS1Sb3uejyNMu/Bl+3ZdI4VZGJKT6JSoSDYcLFlapOUy0wJPN9h+XDXAY8xeFk0bQFdEMIOGNAN2/jht4XSJKA==",
+      "dependencies": [
+        "heap"
       ]
     }
   },
@@ -192,7 +202,8 @@
       "jsr:@std/testing@^1.0.9",
       "jsr:@std/text@^1.0.10",
       "npm:@types/turndown@^5.0.5",
-      "npm:turndown@^7.2.0"
+      "npm:turndown@^7.2.0",
+      "npm:yalps@~0.6.3"
     ]
   }
 }

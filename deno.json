@@ -27,7 +27,8 @@
     "@std/text": "jsr:@std/text@^1.0.10",
     "@types/turndown": "npm:@types/turndown@^5.0.5",
     "@utilities/": "./utilities/",
-    "turndown": "npm:turndown@^7.2.0"
+    "turndown": "npm:turndown@^7.2.0",
+    "yalps": "npm:yalps@^0.6.3"
   },
   "lint": {
     "rules": {
