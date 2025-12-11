@@ -1,6 +1,8 @@
+import { memoize } from "@std/cache";
+import { sumOf } from "@std/collections";
 import { BinaryHeap } from "@std/data-structures";
-import { ObjectMap } from "@utilities/ObjectMap.ts";
-import { ObjectSet } from "@utilities/ObjectSet.ts";
+import { ObjectMap } from "./ObjectMap.ts";
+import { ObjectSet } from "./ObjectSet.ts";
 
 export const dijkstras = <T>(
   start: T,
@@ -12,6 +14,7 @@ export const dijkstras = <T>(
   const visited = new ObjectSet<T>();
 
   distances.set(start, 0);
+  previous.set(start, new ObjectSet());
 
   const getDistance = (node: T) => distances.get(node) ?? Infinity;
   const queue = new BinaryHeap<T>((a, b) => getDistance(a) - getDistance(b));
@@ -58,14 +61,32 @@ export function* getPaths<T>(
     path.unshift(current);
 
     const previousNodes = previous.get(current);
-    if (previousNodes == null) {
-      yield path;
-    } else {
-      for (const previousNode of previousNodes) {
-        yield* inner(previousNode, [...path]);
-      }
+    if (previousNodes == null) return;
+    if (previousNodes.size === 0) yield path;
+    for (const previousNode of previousNodes) {
+      yield* inner(previousNode, [...path]);
     }
   }
+}
+
+export function getNumberOfPaths<T>(
+  end: T,
+  previous: ObjectMap<T, ObjectSet<T>>,
+): number {
+  const inner = (end: T): number => {
+    const previousNodes = previous.get(end);
+    if (previousNodes == null) return 0;
+    if (previousNodes.size === 0) return 1;
+    return sumOf(
+      previousNodes,
+      (node) => memoized(node),
+    );
+  };
+  const memoized = memoize<typeof inner, T, ObjectMap<T, number>>(inner, {
+    cache: new ObjectMap(),
+    getKey: (end) => end,
+  });
+  return memoized(end);
 }
 
 export type GetNeighbors<T> = (node: T) => Iterable<T>;
